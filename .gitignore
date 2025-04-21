@@ -201,6 +201,7 @@ pyrightconfig.json
 # Visual Studio cache directory
 .vs/
 .vscode/
+.vsconfig/
 
 # Gradle cache directory
 .gradle/
@@ -247,4 +248,32 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
+
+#ignore version for collab
+ProjectSettings/ProjectVersion.txt
+
+
+# Packed Addressables
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
+# Addressables 
+Assets/StreamingAssets/
+Library/com.unity.addressables/
+Library/com.unity.addressables/aa/
+Library/com.unity.addressables/StreamingAssets/
+Assets/StreamingAssets/aa/
+Library/com.unity.addressables/BuildLayout.txt
+Library/com.unity.addressables/settings.json
+Library/com.unity.addressables/Build/Windows/  # Windows 빌드 데이터
+Library/com.unity.addressables/Build/Linux/    # Linux 빌드 데이터
+Library/com.unity.addressables/Build/MacOS/    # MacOS 빌드 데이터
+Library/com.unity.addressables/Build/iOS/      # iOS 빌드 데이터
+Library/com.unity.addressables/Build/Android/  # Android 빌드 데이터
+
+# Editor Seeting
+ProjectSettings/EditorBuildSettings.asset # 빌드 씬 목록 
+
 # End of https://www.toptal.com/developers/gitignore/api/unity,python
+
+
+
