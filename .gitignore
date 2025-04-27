@@ -7,6 +7,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# media
+*.mid
+
 # C extensions
 *.so
 
@@ -200,7 +203,7 @@ pyrightconfig.json
 
 # Visual Studio cache directory
 .vs/
-
+.vscode/
 # Gradle cache directory
 .gradle/
 
