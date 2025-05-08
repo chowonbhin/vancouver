@@ -472,7 +472,7 @@ Light:
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_NearPlane: 0.51
     m_CullingMatrixOverride:
       e00: 1
       e01: 0
@@ -547,7 +547,7 @@ MonoBehaviour:
   m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
-  m_SoftShadowQuality: 1
+  m_SoftShadowQuality: 0
 --- !u!4 &429074174 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1990d7d951c998e49851da5e48f2e2cc,
@@ -1791,7 +1791,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1829,7 +1829,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 16f693bb063ec684d8a683387be2073a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.438734
+      value: 0.944
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 16f693bb063ec684d8a683387be2073a,
         type: 3}
@@ -4560,6 +4560,61 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 678354279}
     m_Modifications:
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ae4880efc54b7fd498bb4cea38393686, type: 2}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.colorGradient.m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.generateLightingData
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2755407329316316701, guid: 73fd4c17dc938954b8506cadb156ca90,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4427465704721277355, guid: 73fd4c17dc938954b8506cadb156ca90,
         type: 3}
       propertyPath: m_Name
@@ -4578,7 +4633,7 @@ PrefabInstance:
     - target: {fileID: 7282785749083116659, guid: 73fd4c17dc938954b8506cadb156ca90,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.154
+      value: 20.374
       objectReference: {fileID: 0}
     - target: {fileID: 7282785749083116659, guid: 73fd4c17dc938954b8506cadb156ca90,
         type: 3}

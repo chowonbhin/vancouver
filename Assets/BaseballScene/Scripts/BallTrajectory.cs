@@ -7,8 +7,8 @@ namespace HP
     {
         public LineRenderer lineRenderer;
         public float lifeTime = 3f;
-        public float startWidth = 0.1f;
-        public float endWidth = 0.05f;
+        public float startWidth = 0.05f;
+        public float endWidth = 0.1f;
 
         private List<Vector3> positions = new List<Vector3>();
         private List<float> timers = new List<float>();
