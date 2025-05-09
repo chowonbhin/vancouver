@@ -11,37 +11,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 1.172
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.04657
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.01418
+      value: -0.431
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a73a518479550ee4e9c50d52bdcaed82,
         type: 3}
       propertyPath: m_Name
-      value: boxing_gloves.L
+      value: GlovesLeftPrefab
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
