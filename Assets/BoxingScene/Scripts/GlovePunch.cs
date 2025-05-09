@@ -10,7 +10,7 @@ public class GlovePunchXR : MonoBehaviour
     public int hitCount = 0;
     public TextMeshProUGUI hitText;
     public AudioClip punchSound;
-    public GameObject spawnManager;    // Объект с компонентом Spawn.cs
+    //public GameObject spawnManager;    // Объект с компонентом Spawn.cs
 
     private AudioSource audioSource;
     private Vector3 currentVelocity;
@@ -36,7 +36,7 @@ public class GlovePunchXR : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PunchBag") && currentVelocity.magnitude > minPunchSpeed)
+        if ((other.CompareTag("PunchBag") || other.CompareTag("Bomb")) && currentVelocity.magnitude > minPunchSpeed)
         {
             hitCount++;
 
@@ -72,12 +72,48 @@ public class GlovePunchXR : MonoBehaviour
                 Destroy(vfx.gameObject, 2f); 
             }
 
-            Destroy(other.gameObject, 2.5f);
+            Destroy(other.gameObject, 1.5f);
 
-            if (spawnManager != null)
+            //if (spawnManager != null)
+            //{
+            //    spawnManager.GetComponent<Spawn>().SpawnBall();
+            //}
+        }
+
+        else if (other.CompareTag("Barrel") && currentVelocity.magnitude > minPunchSpeed)
+        {
+            
+
+            if (audioSource != null && punchSound != null)
+                audioSource.PlayOneShot(punchSound);
+
+
+
+            ParticleSystem ps = other.GetComponentInChildren<ParticleSystem>();
+            if (ps != null)
             {
-                spawnManager.GetComponent<Spawn>().SpawnBall();
+                ps.transform.parent = null;
+                ps.Play();
+                Destroy(ps.gameObject, ps.main.duration + 0.5f);
             }
+
+            // 2. VFX Graph
+            UnityEngine.VFX.VisualEffect vfx = other.GetComponentInChildren<UnityEngine.VFX.VisualEffect>();
+            if (vfx != null)
+            {
+                vfx.transform.parent = null;
+                vfx.Play();
+                Destroy(vfx.gameObject, 2f);
+            }
+            GameObject spawn = GameObject.FindGameObjectWithTag("BombSpawn");
+            spawn.GetComponent<Spawn>().SpawnBall();
+
+            Destroy(other.gameObject);
+
+            //if (spawnManager != null)
+            //{
+            //    spawnManager.GetComponent<Spawn>().SpawnBall();
+            //}
         }
     }
 }

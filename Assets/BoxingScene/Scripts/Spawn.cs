@@ -16,12 +16,17 @@ public class Spawn : MonoBehaviour
         
     }
 
-    public GameObject ballPrefab;     
+    public GameObject[] ballPrefabs;
     public Transform spawnPoint;
 
     public void SpawnBall()
     {
-        GameObject newBall = Instantiate(ballPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        int index = Random.Range(0, ballPrefabs.Length);
+        GameObject prefabToSpawn = ballPrefabs[index];
+        
+
+        GameObject newBall = Instantiate(prefabToSpawn, spawnPoint.position, spawnPoint.rotation);
         newBall.AddComponent<SlowGravity>();
         Destroy(newBall.gameObject, 5f);
     }
