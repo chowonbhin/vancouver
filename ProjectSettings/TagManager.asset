@@ -8,6 +8,7 @@ TagManager:
   - Left Controller
   - Right Controller
   - BaseBall
+  - Ground
   layers:
   - Default
   - TransparentFX
