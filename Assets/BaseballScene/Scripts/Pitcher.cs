@@ -3,6 +3,8 @@ using UnityEngine.Pool;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 using System.Collections;
+using UnityEngine.InputSystem;
+using System;
 
 namespace HP
 {
@@ -19,6 +21,9 @@ namespace HP
         // 공이 자연ㄴ히 사라지는데 걸리는 시간 (초)
         public float liveTime = 6f;
         private IObjectPool<GameObject> objectPool;
+
+
+        public InputActionReference throwAction;
 
         void Start()
         {
@@ -42,6 +47,17 @@ namespace HP
             actionOnDestroy: ball => Destroy(ball.gameObject),
             collectionCheck: false,
             defaultCapacity: 50);
+
+            throwAction.action.performed += onThrow;
+
+        }
+
+        private void onThrow(InputAction.CallbackContext ctx)
+        {
+            if (ctx.ReadValueAsButton())
+            {
+                ThrowBall(duration);
+            }
         }
 
         public void ThrowBall(float duration)
@@ -59,22 +75,10 @@ namespace HP
             yield return new WaitForSeconds(time);
             objectPool.Release(ball);
         }
-        void Update()
+
+        private void OnDestroy()
         {
-
-            UnityEngine.XR.InputDevice device = InputDevices.GetDeviceAtXRNode(XRNode.LeftHand);
-            InputHelpers.Button button = InputHelpers.Button.PrimaryButton;
-            bool isPressed = false;
-
-            if (device.isValid)
-            {
-                InputHelpers.IsPressed(device, button, out isPressed);
-            }
-
-            if (isPressed)
-            {
-                ThrowBall(duration);
-            }
+            throwAction.action.performed -= onThrow;
         }
     }
 }

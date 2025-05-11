@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 3531456385811082896}
   - component: {fileID: 2755407329316316701}
   - component: {fileID: 2364277755509578224}
+  - component: {fileID: 2278838754971197983}
   m_Layer: 0
   m_Name: ball
-  m_TagString: Untagged
+  m_TagString: BaseBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4427465704721277355}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.523, y: 0.473, z: 20.154}
   m_LocalScale: {x: 16.335949, y: 16.335949, z: 16.335949}
   m_ConstrainProportionsScale: 1
@@ -108,7 +109,7 @@ Rigidbody:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
@@ -310,7 +311,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: ae4880efc54b7fd498bb4cea38393686, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -340,19 +341,28 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.13568628, g: 1, b: 0, a: 0.9254902}
+      key0: {r: 1, g: 1, b: 1, a: 0.9254902}
       key1: {r: 1, g: 1, b: 1, a: 0.9254902}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -386,7 +396,7 @@ LineRenderer:
     textureMode: 0
     textureScale: {x: 1, y: 1}
     shadowBias: 0.5
-    generateLightingData: 0
+    generateLightingData: 1
   m_MaskInteraction: 0
   m_UseWorldSpace: 1
   m_Loop: 0
@@ -407,6 +417,18 @@ MonoBehaviour:
   lifeTime: 0.5
   startWidth: 0.1
   endWidth: 0.05
+--- !u!114 &2278838754971197983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4427465704721277355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcb5e8c48716d0e46814b8a6dbdd3951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6381891503992309059
 GameObject:
   m_ObjectHideFlags: 0
