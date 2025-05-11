@@ -105,8 +105,25 @@ public class GlovePunchXR : MonoBehaviour
                 vfx.Play();
                 Destroy(vfx.gameObject, 2f);
             }
-            GameObject spawn = GameObject.FindGameObjectWithTag("BombSpawn");
-            spawn.GetComponent<Spawn>().SpawnBall();
+            Transform bombSpawnTransform = other.transform.Find("BombSpawn");
+
+           
+            if (bombSpawnTransform != null)
+            {
+                Spawn spawner = bombSpawnTransform.GetComponent<Spawn>();
+                if (spawner != null)
+                {
+                    spawner.SpawnBall();
+                }
+                else
+                {
+                    Debug.LogWarning("Spawn not found in BombSpawn.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning(" BombSpawn not found in Barrel.");
+            }
 
             Destroy(other.gameObject);
 
