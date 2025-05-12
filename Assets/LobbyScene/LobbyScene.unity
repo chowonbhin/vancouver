@@ -3953,7 +3953,7 @@ PrefabInstance:
     - target: {fileID: 6278990240406602006, guid: 3c39aed3069159643a2c7da31fb6ff2b,
         type: 3}
       propertyPath: m_Name
-      value: Fader Screnn
+      value: Fader Screen
       objectReference: {fileID: 0}
     - target: {fileID: 7954625125018389910, guid: 3c39aed3069159643a2c7da31fb6ff2b,
         type: 3}
