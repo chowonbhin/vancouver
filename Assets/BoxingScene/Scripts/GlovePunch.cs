@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.XR;
 using TMPro;
+using static UnityEngine.UI.Image;
 
 public class GlovePunchXR : MonoBehaviour
 {
@@ -10,11 +11,13 @@ public class GlovePunchXR : MonoBehaviour
     public int hitCount = 0;
     public TextMeshProUGUI hitText;
     public AudioClip punchSound;
+    public GameObject fractured;
     //public GameObject spawnManager;    // Объект с компонентом Spawn.cs
 
     private AudioSource audioSource;
     private Vector3 currentVelocity;
     private InputDevice device;
+
 
     void Start()
     {
@@ -125,12 +128,40 @@ public class GlovePunchXR : MonoBehaviour
                 Debug.LogWarning(" BombSpawn not found in Barrel.");
             }
 
-            Destroy(other.gameObject);
+            SpawnFracturedObject(other.gameObject);
 
             //if (spawnManager != null)
             //{
             //    spawnManager.GetComponent<Spawn>().SpawnBall();
             //}
+        }
+    }
+
+    public void SpawnFracturedObject(GameObject original)
+    {
+        Vector3 spawnPosition = Vector3.zero;
+        Quaternion spawnRotation = Quaternion.identity;
+
+        if (original != null)
+        {
+            spawnPosition = original.transform.position;
+            spawnRotation = original.transform.rotation;
+
+            Destroy(original);
+        }
+        else
+        {
+            Debug.LogWarning("Original barrel is not assigned!");
+        }
+
+        if (fractured != null)
+        {
+            GameObject fracturedObj = Instantiate(fractured, spawnPosition, spawnRotation);
+            fracturedObj.GetComponent<ExplodeBarrel>().Explode();
+        }
+        else
+        {
+            Debug.LogWarning("Fractured barrel prefab is not assigned!");
         }
     }
 }
