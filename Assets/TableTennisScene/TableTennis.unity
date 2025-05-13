@@ -1663,7 +1663,7 @@ MonoBehaviour:
   ballPref: {fileID: 6292565512629811020}
   balls: {fileID: 1394626889}
   duration: 2
-  liveTime: 2.3
+  liveTime: 3
 --- !u!4 &1386738970
 Transform:
   m_ObjectHideFlags: 0
