@@ -18,7 +18,7 @@ public class RemoveObjects : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PunchBag") || other.CompareTag("Barrel")  || other.CompareTag("Bomba"))
+        if (other.CompareTag("PunchBag") || other.CompareTag("Barrel")  || other.CompareTag("Bomb"))
         {
             UnityEngine.VFX.VisualEffect vfx = other.GetComponentInChildren<UnityEngine.VFX.VisualEffect>();
             if (vfx != null)
