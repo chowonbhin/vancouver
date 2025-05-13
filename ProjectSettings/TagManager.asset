@@ -3,12 +3,7 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags:
-  - XR Origin
-  - Left Controller
-  - Right Controller
-  - BaseBall
-  - Ground
+  tags: []
   layers:
   - Default
   - TransparentFX
@@ -16,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - MoveArea
+  - 
   - 
   - 
   - 
