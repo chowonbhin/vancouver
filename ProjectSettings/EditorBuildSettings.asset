@@ -8,6 +8,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/LobbyScene/LobbyScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/BoxingScene/Boxing.unity
+    guid: c7b3c50f18e88c748946dbe0da58c295
+  - enabled: 1
+    path: Assets/BaseballScene/BaseballScene.unity
+    guid: cbe18f2ebc01ca441a196c3fed948a09
+  - enabled: 1
+    path: Assets/TableTennisScene/TableTennis.unity
+    guid: da6acdc01850b5248a7d5eae6990538d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 48dc692eeee3704458940bc3f127b714,
       type: 2}
