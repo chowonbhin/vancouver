@@ -167,10 +167,34 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 107917211}
+        m_TargetAssemblyTypeName: OutlineOnHover, Assembly-CSharp
+        m_MethodName: OnHoverEntered
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 107917211}
+        m_TargetAssemblyTypeName: OutlineOnHover, Assembly-CSharp
+        m_MethodName: OnHoverExited
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_FirstSelectEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -361,6 +385,88 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3770679193392312203}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &55081372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55081362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
+--- !u!1 &107917209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 107917210}
+  - component: {fileID: 107917211}
+  - component: {fileID: 107917212}
+  m_Layer: 0
+  m_Name: VisualManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &107917210
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107917209}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 934310321}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &107917211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107917209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaaa1be6254596d4bb8aff6e5470da45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outline: {fileID: 107917212}
+--- !u!114 &107917212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107917209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 0.37927818, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1001 &119681299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -828,6 +934,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: pad_base
+      objectReference: {fileID: 0}
+    - target: {fileID: 12290884590681130, guid: 74440b8e87412184da081c6e1c6a4135,
+        type: 3}
+      propertyPath: m_TagString
+      value: Selectable
       objectReference: {fileID: 0}
     - target: {fileID: 8859094096974979545, guid: 74440b8e87412184da081c6e1c6a4135,
         type: 3}
@@ -2019,6 +2130,7 @@ Transform:
   m_Children:
   - {fileID: 1742475228}
   - {fileID: 1284244152}
+  - {fileID: 107917210}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &967890327 stripped
@@ -2303,10 +2415,34 @@ MonoBehaviour:
       m_Calls: []
   m_HoverEntered:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 107917211}
+        m_TargetAssemblyTypeName: OutlineOnHover, Assembly-CSharp
+        m_MethodName: OnHoverEntered
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_HoverExited:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 107917211}
+        m_TargetAssemblyTypeName: OutlineOnHover, Assembly-CSharp
+        m_MethodName: OnHoverExited
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_FirstSelectEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -2497,6 +2633,24 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1608425436108260816}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1013653487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1013653477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &1087453301 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 679181962475892414, guid: cb2b6f0b274567748bcd790d071df2f0,
@@ -3762,6 +3916,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: pingpong_ball
       objectReference: {fileID: 0}
+    - target: {fileID: 2529971440978262759, guid: fa9aabf2c4fc9634889f1084f151b93a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
     - target: {fileID: 8999906811739461630, guid: fa9aabf2c4fc9634889f1084f151b93a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4437,6 +4596,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: baseball_ball_01
       objectReference: {fileID: 0}
+    - target: {fileID: 9191441306691200122, guid: 35c2ccdfbdad1c444aa0178c40131995,
+        type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4466,6 +4630,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GlovesRightPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 2072143564956921096, guid: 539a2a927d01c3f4d9829473e0b39888,
+        type: 3}
+      propertyPath: m_TagString
+      value: Selectable
       objectReference: {fileID: 0}
     - target: {fileID: 8951781070765348390, guid: 539a2a927d01c3f4d9829473e0b39888,
         type: 3}
@@ -4538,6 +4707,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1013653483}
+    - targetCorrespondingSourceObject: {fileID: 2072143564956921096, guid: 539a2a927d01c3f4d9829473e0b39888,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1013653487}
   m_SourcePrefab: {fileID: 100100000, guid: 539a2a927d01c3f4d9829473e0b39888, type: 3}
 --- !u!1001 &3770679193392312203
 PrefabInstance:
@@ -4602,6 +4775,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GlovesLeftPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 1953383938148870233, guid: 22ec9e28398a1cd43a872811f0eb3a96,
+        type: 3}
+      propertyPath: m_TagString
+      value: Selectable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4618,6 +4796,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 55081368}
+    - targetCorrespondingSourceObject: {fileID: 1953383938148870233, guid: 22ec9e28398a1cd43a872811f0eb3a96,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 55081372}
   m_SourcePrefab: {fileID: 100100000, guid: 22ec9e28398a1cd43a872811f0eb3a96, type: 3}
 --- !u!1001 &5138160567422991421
 PrefabInstance:
