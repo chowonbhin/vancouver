@@ -16,7 +16,7 @@ namespace TT
         public GameObject ballPref;
         public Transform balls;
     
-        public float duration = 1.5f;
+        public float duration = 1f;
         public float liveTime = 6f;
         private IObjectPool<GameObject> objectPool;
 
