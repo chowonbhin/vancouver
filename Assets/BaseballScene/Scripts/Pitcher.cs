@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.InputSystem;
 using BaseBallScene;
 
-namespace HP
+namespace BaseBallScene
 {
     public class Pitcher : MonoBehaviour
     {
@@ -37,10 +37,10 @@ namespace HP
                 ball.gameObject.SetActive(true);
                 var tr = ball.GetComponent<Transform>();
                 var rb = ball.GetComponent<Rigidbody>();
-                var trajectory = ball.GetComponent<BallTrajectory>();
+                //var trajectory = ball.GetComponent<BallTrajectory>();
+                //trajectory.ClearTrajectory();
                 tr.position = startPoint.position;
                 rb.velocity = Vector3.zero;
-                trajectory.ClearTrajectory();
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),

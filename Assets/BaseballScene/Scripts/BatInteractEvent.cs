@@ -6,15 +6,13 @@ namespace BaseBallScene
 {
     public class BatInteractEvent : MonoBehaviour
     {
-        float maxSpeed = 10.0f; // 햅틱 최대 강도에 응하는 속도
-        float duration = 0.1f;
+        public float maxSpeed = 10.0f; // 햅틱 최대 강도에 응하는 속도
+        public float duration = 0.1f;
 
         XRGrabInteractable interactable;
-        AudioSource audioSource;
 
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             interactable = GetComponent<XRGrabInteractable>();
             if (interactable != null)
             {
@@ -32,24 +30,14 @@ namespace BaseBallScene
 
         }
 
-        private void OnCollisionEnter(Collision collision)
+        // 현재 배트 오브젝트를 선택한 XR 컨트롤러에 햅틱 피드백을 제공하는 메서드
+        public void TriggerHapticsForSelector(float amplitude,float duration)
         {
-            var ball = collision.gameObject.GetComponent<Ball>();
-            if (ball != null)
+            foreach (var interactor in interactable.interactorsSelecting)
             {
-                float collisionForce = collision.relativeVelocity.magnitude;
-                if (collisionForce != 0)
-                {
-                    float normalizedSpeed = Mathf.Clamp01(collisionForce / maxSpeed);
-
-                    foreach (var interactor in interactable.interactorsSelecting)
-                    {
-                        var controllerInteractor = interactor as XRBaseControllerInteractor;
-                        var controller = controllerInteractor.xrController as ActionBasedController;
-                        controller.SendHapticImpulse(normalizedSpeed, duration);
-                        audioSource.Play();
-                    }
-                }
+                var controllerInteractor = interactor as XRBaseControllerInteractor;
+                var controller = controllerInteractor.xrController as ActionBasedController;
+                controller.SendHapticImpulse(amplitude, duration);
             }
         }
 
