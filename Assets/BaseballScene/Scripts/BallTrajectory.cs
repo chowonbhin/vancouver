@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace HP
+namespace BaseBallScene
 {
+    // [Deprecated]
+    // 이전 버전에서는 LineRenderer를 사용해 궤적을 표시했습니다.
+    // 현재는 VFX Graph 기반으로 대체되었습니다.
     public class BallTrajectory : MonoBehaviour
     {
         public LineRenderer lineRenderer;
