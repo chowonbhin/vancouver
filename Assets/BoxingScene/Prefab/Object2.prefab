@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 620150586775703092}
   - component: {fileID: 5743514851247808527}
   - component: {fileID: 6062217945869868591}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Object2
   m_TagString: PunchBag
   m_Icon: {fileID: 0}
