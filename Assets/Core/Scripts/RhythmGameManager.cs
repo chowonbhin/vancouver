@@ -88,13 +88,11 @@ public class RhythmGameManager : MonoBehaviour
     {
         currentSceneName = scene.name;
         
-        Debug.Log($"씬 로드됨: '{currentSceneName}'");
-        
         // 로비씬이 아닌 게임씬에서만 처리
         if (currentSceneName != "LobbyScene")
         {
             Debug.Log($"게임씬 '{currentSceneName}'이 로드되었습니다. 카운트다운을 시작합니다.");
-            StartCoroutine(StartGameWithCountdown());
+            StartCoroutine(PrepareGameSession());
         }
         else
         {
@@ -102,24 +100,28 @@ public class RhythmGameManager : MonoBehaviour
         }
     }
     
-    private IEnumerator StartGameWithCountdown()
+    private IEnumerator PrepareGameSession()
     {
         // UI가 있으면 카운트다운 표시
         if (uiManager != null)
         {
             uiManager.ShowCountdown(countdownDuration);
         }
-        else
-        {
-            Debug.LogWarning("UI 매니저가 설정되지 않았습니다. 카운트다운이 표시되지 않습니다.");
-        }
         
-        // 카운트다운 시간만큼 대기
-        Debug.Log($"{countdownDuration}초 카운트다운을 시작합니다.");
+        // 카운트다운
         yield return new WaitForSeconds(countdownDuration);
         
-        // 음악 재생
-        StartMusic();
+        // 리듬 매니저를 통해 게임 시작
+        if (RhythmManager.Instance != null)
+        {
+            // 리듬 매니저가 자동으로 게임을 시작함
+            // (SceneSetup에서 씬이 로드될 때 자동 등록)
+        }
+        else
+        {
+            // 리듬 매니저가 없으면 기존 방식으로 음악 재생
+            StartMusic();
+        }
     }
     
     private void StartMusic()
