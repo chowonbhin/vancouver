@@ -1,23 +1,40 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using System.Collections.Generic;
 
-public class OutlineOnHover : MonoBehaviour
+public class OutlineManager : MonoBehaviour
 {
-    public Outline outline;
+    public List<Outline> outlines;  // 여러 개의 Outline 컴포넌트들을 저장할 리스트
+
+    private Dictionary<Outline, Color> originalColors = new();
 
     private void Awake()
     {
-        outline = GetComponent<Outline>();
-        outline.enabled = false;
+        foreach (var outline in outlines)
+        {
+            if (outline != null)
+            {
+                originalColors[outline] = outline.OutlineColor;
+                outline.enabled = false;
+            }
+        }
     }
 
-    public void OnHoverEntered(HoverEnterEventArgs args)
+    public void EnableOutline(Outline target)
     {
-        outline.enabled = true;
+        if (target != null)
+        {
+            target.enabled = true;
+            target.OutlineColor = Color.blue;
+        }
     }
 
-    public void OnHoverExited(HoverExitEventArgs args)
+    public void DisableOutline(Outline target)
     {
-        outline.enabled = false;
+        if (target != null && originalColors.ContainsKey(target))
+        {
+            target.enabled = false;
+            target.OutlineColor = originalColors[target];
+        }
     }
 }
