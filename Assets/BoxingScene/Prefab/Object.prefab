@@ -5093,7 +5093,7 @@ GameObject:
   - component: {fileID: 2917746039221445673}
   - component: {fileID: 5826268141299700101}
   - component: {fileID: 3978468976867692311}
-  m_Layer: 30
+  m_Layer: 10
   m_Name: Object
   m_TagString: PunchBag
   m_Icon: {fileID: 0}
