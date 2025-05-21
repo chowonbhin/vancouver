@@ -10,20 +10,20 @@ namespace TT
 
         private void OnCollisionEnter(Collision collision)
         {
-
-            if (collision.gameObject.CompareTag("Pingpong"))
-            {
-                checker = true;
+            if(collision.gameObject.tag != "PingpongBall"){
+                return;
             }
 
-        }
-        public bool checking()
-        {
-            return checker;
-        }
-        void update()
-        {
-            checker = false;
+            if (collision.gameObject.GetComponent<RhythmData>() != null)
+            {
+                if (InteractionNotifier.Instance != null)
+                {
+                    InteractionNotifier.Instance.NotifyInteraction(collision.gameObject);
+                }
+            }
+
+            collision.gameObject.tag = "processed";  
+
         }
     }
 }

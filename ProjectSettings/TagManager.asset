@@ -9,6 +9,12 @@ TagManager:
   - Right Controller
   - BaseBall
   - Ground
+  - Barrel
+  - Bomb
+  - PunchBag
+  - Ball
+  - PingpongBall
+  - processed
   layers:
   - Default
   - TransparentFX

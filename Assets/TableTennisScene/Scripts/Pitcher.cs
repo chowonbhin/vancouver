@@ -22,12 +22,15 @@ namespace TT
 
         private bool isThrowing = false; // 던지기 중복 방지 플래그
 
+        private float currentBeatTime = 0f;
+
         void Start()
         {
             objectPool = new UnityEngine.Pool.ObjectPool<GameObject>(createFunc: () =>
             {
                 var ball = Instantiate(ballPref, balls, false);
                 ball.gameObject.SetActive(false);
+                ball.tag = "PingpongBall";
                 return ball;
             },
             actionOnGet: ball =>
@@ -39,6 +42,19 @@ namespace TT
                 tr.position = startPoint.position;
                 rb.velocity = Vector3.zero;
                 trajectory.ClearTrajectory();
+
+                // 새 RhythmData 추가 및 초기화
+                if(ball.GetComponent<RhythmData>() == null){
+                    RhythmData rhythmData = ball.AddComponent<RhythmData>();
+                    rhythmData.Initialize(currentBeatTime);
+                    Debug.Log($"리듬 데이터 추가: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
+                }
+                else{
+                    RhythmData rhythmData = ball.GetComponent<RhythmData>();
+                    rhythmData.Edit(Time.time, currentBeatTime);
+                    Debug.Log($"리듬 데이터 수정: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
+                }
+                
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),
@@ -46,15 +62,24 @@ namespace TT
             defaultCapacity: 50);
         }
 
-        public void ThrowBall(float duration)
+        public GameObject ThrowBall(float duration, float beatTime)
         {
-            if (isThrowing) return; // 이미 던지고 있다면 종료
+            if (isThrowing) return null; // 이미 던지고 있다면 종료
+
+            // 현재 비트 시간 저장 (actionOnGet에서 사용)
+            currentBeatTime = beatTime;
 
             isThrowing = true;
             var ball = objectPool.Get();
             var tr = ball.GetComponent<Transform>();
             StartCoroutine(ParabolicMovement(ball, duration));
             StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
+
+            if(ball.tag != "PingpongBall"){
+                ball.tag = "PingpongBall";
+            }
+
+            return ball; // 생성된 공 반환
         }
 
         private IEnumerator ParabolicMovement(GameObject ball, float duration)
@@ -104,7 +129,7 @@ namespace TT
 
             if (isPressed)
             {
-                ThrowBall(duration);
+                ThrowBall(duration, Time.time);
             }
         }
     }

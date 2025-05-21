@@ -11,6 +11,9 @@ public class SceneSetup : MonoBehaviour
     
     [Header("오브젝트 발사기")]
     [SerializeField] private ObjectLauncher objectLauncher;
+
+    [Header("UI 참조")]
+    [SerializeField] private JudgmentUI judgmentUI;
     
     private void Start()
     {
@@ -50,7 +53,29 @@ public class SceneSetup : MonoBehaviour
         {
             Debug.LogError("RhythmManager 인스턴스를 찾을 수 없습니다.");
         }
+
+        // JudgmentSystem에 현재 씬의 UI 연결
+        if (JudgmentSystem.Instance != null && judgmentUI != null)
+        {
+            JudgmentSystem.Instance.SetJudgmentUI(judgmentUI);
+            Debug.Log($"현재 씬 '{gameObject.scene.name}'의 JudgmentUI를 JudgmentSystem에 연결했습니다.");
+        }
+
+        if (JudgmentSystem.Instance != null && judgmentUI != null)
+        {
+            JudgmentSystem.Instance.SetJudgmentUI(judgmentUI);
+            Debug.Log($"현재 씬 '{gameObject.scene.name}'의 JudgmentUI를 JudgmentSystem에 연결했습니다.");
+            
+            // VR 모드인지 확인하고 Canvas 설정
+            bool isVRMode = UnityEngine.XR.XRSettings.enabled;
+            if (isVRMode)
+            {
+                judgmentUI.PositionCanvasForVR();
+            }
+        }
     }
+
+    
     
     private void OnDestroy()
     {

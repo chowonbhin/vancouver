@@ -22,6 +22,9 @@ public class RhythmManager : MonoBehaviour
     private int nextBeatIndex = 0;
     private float gameStartTime;
     private bool isPlaying = false;
+
+    // 게임 시작 시간 접근자
+    public float GameStartTime { get { return gameStartTime; } }
     
     private void Awake()
     {
@@ -56,6 +59,7 @@ public class RhythmManager : MonoBehaviour
             currentLeadTime = leadTime;
             
             Debug.Log($"비트맵 로드 완료. 비트 수: {(currentBeatData?.beatTimes?.Count ?? 0)}");
+            Debug.Log($"비트맵 로드 완료. 비트 정보: {currentBeatData}");
         }
         else
         {
@@ -144,6 +148,12 @@ public class RhythmManager : MonoBehaviour
         gameStartTime = Time.time;
         nextBeatIndex = 0;
         isPlaying = true;
+
+        if (JudgmentSystem.Instance != null)
+        {
+            JudgmentSystem.Instance.SetGameStartTime(gameStartTime);
+            Debug.Log($"게임 시작 시간 설정: {gameStartTime}");
+        }
         
         // 음악 재생
         if (musicSource != null && musicSource.clip != null)
@@ -189,7 +199,16 @@ public class RhythmManager : MonoBehaviour
                 if (currentLauncher != null)
                 {
                     Debug.Log($"비트 {nextBeatIndex}: 오브젝트 발사 시도");
-                    currentLauncher.Launch(beatTime);
+                    GameObject launchedObject = currentLauncher.Launch(beatTime);
+                    
+                    // ObjectLauncher가 RhythmData를 추가하지 않은 경우 여기서 추가
+                    if (launchedObject != null && launchedObject.GetComponent<RhythmData>() == null)
+                    {
+                        RhythmData rhythmData = launchedObject.AddComponent<RhythmData>();
+                        rhythmData.Initialize(beatTime);
+                        Debug.Log($"리듬 데이터 추가: 오브젝트 '{launchedObject.name}', 타겟시간 {beatTime}");
+                    }
+                    
                     processedBeats++;
                 }
                 else
