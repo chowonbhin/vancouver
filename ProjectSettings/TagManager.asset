@@ -9,6 +9,7 @@ TagManager:
   - Right Controller
   - BaseBall
   - Ground
+  - Selectable
   - Barrel
   - Bomb
   - PunchBag
