@@ -6,7 +6,7 @@ namespace BaseBallScene
 {
     public class BatInteractEvent : MonoBehaviour
     {
-        float maxSpeed = 10.0f; // ÇÝÆ½ ÃÖ´ë °­µµ¿¡ ÀÀÇÏ´Â ¼Óµµ
+        float maxSpeed = 10.0f; // ï¿½ï¿½Æ½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Óµï¿½
         float duration = 0.1f;
 
         XRGrabInteractable interactable;
@@ -51,6 +51,18 @@ namespace BaseBallScene
                     }
                 }
             }
+
+            if(collision.gameObject.tag != "BaseBall"){
+                return;
+            }
+
+            if(collision.gameObject.GetComponent<RhythmData>() != null){
+                if(InteractionNotifier.Instance != null){
+                    InteractionNotifier.Instance.NotifyInteraction(collision.gameObject);
+                }
+            }
+
+            collision.gameObject.tag = "processed";
         }
 
         public void OnEvent(SelectEnterEventArgs arg0)

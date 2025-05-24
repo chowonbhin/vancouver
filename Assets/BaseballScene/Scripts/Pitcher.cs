@@ -8,18 +8,19 @@ namespace HP
 {
     public class Pitcher : MonoBehaviour
     {
-        [Header("Åõ±¸ ¼³Á¤")]
-        // Åõ±¸ ½ÃÀÛÁ¡°ú Á¾·áÁ¡À» ¿¡µğÅÍ¿¡¼­ ÇÒ´ç
+        [Header("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½Ò´ï¿½
         public Transform startPoint;
         public Transform endPoint;
         public Ball ballPref;
         public Transform balls;
-        // °øÀÌ ¸ñÀûÁö¿¡ µµ´ŞÇÏ´Âµ¥ °É¸®´Â ½Ã°£ (ÃÊ)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Âµï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (ï¿½ï¿½)
         public float duration = 1.5f;
-        // °øÀÌ ÀÚ¿¬¤¤È÷ »ç¶óÁö´Âµ¥ °É¸®´Â ½Ã°£ (ÃÊ)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ (ï¿½ï¿½)
         public float liveTime = 6f;
         private IObjectPool<Ball> objectPool;
 
+        private float currentBeatTime = 0f;
 
         public InputActionReference throwAction;
 
@@ -29,6 +30,7 @@ namespace HP
             {
                 var ball = Instantiate(ballPref, balls, false);
                 ball.gameObject.SetActive(false);
+                ball.tag = "BaseBall";
                 return ball;
             },
             actionOnGet: ball =>
@@ -41,6 +43,18 @@ namespace HP
                 tr.position = startPoint.position;
                 rb.velocity = Vector3.zero;
                 trajectory.ClearTrajectory();
+
+                // ìƒˆ RhythmData ì¶”ê°€ ë° ì´ˆê¸°í™”
+                if(ball.gameObject.GetComponent<RhythmData>() == null){
+                    RhythmData rhythmData = ball.gameObject.AddComponent<RhythmData>();
+                    rhythmData.Initialize(currentBeatTime);
+                    Debug.Log($"ë¦¬ë“¬ ë°ì´í„° ì¶”ê°€: ì˜¤ë¸Œì íŠ¸ '{ball.name}', íƒ€ê²Ÿì‹œê°„ {currentBeatTime}");
+                }
+                else{
+                    RhythmData rhythmData = ball.gameObject.GetComponent<RhythmData>();
+                    rhythmData.Edit(Time.time, currentBeatTime);
+                    Debug.Log($"ë¦¬ë“¬ ë°ì´í„° ìˆ˜ì •: ì˜¤ë¸Œì íŠ¸ '{ball.name}', íƒ€ê²Ÿì‹œê°„ {currentBeatTime}");
+                }
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),
@@ -55,12 +69,14 @@ namespace HP
         {
             if (ctx.ReadValueAsButton())
             {
-                ThrowBall(duration);
+                ThrowBall(duration, currentBeatTime);
             }
         }
 
-        public void ThrowBall(float duration)
+        public GameObject ThrowBall(float duration, float beatTime)
         {
+            currentBeatTime = beatTime;
+
             var ball = objectPool.Get();
             var tr = ball.GetComponent<Transform>();
             var rb = ball.GetComponent<Rigidbody>();
@@ -68,7 +84,14 @@ namespace HP
             Vector3 initialVelocity = distance / duration - 0.5f * Physics.gravity * duration;
             rb.velocity = initialVelocity;
             StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
+
+            if(ball.tag != "BaseBall"){
+                ball.tag = "BaseBall";
+            }
+
+            return ball.gameObject;
         }
+
         private IEnumerator ReturnToPoolAfterTime(Ball ball, float time)
         {
             yield return new WaitForSeconds(time);
