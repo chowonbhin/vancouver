@@ -35,14 +35,33 @@ public class BeatData
                     beatTrack = track;
                     break;
                 }
+
+                if (track.name == "Drum" || track.id == 1)
+                {
+                    beatTrack = track;
+                    break;
+                }
             }
             
             // 비트 시간 추출
             if (beatTrack != null && beatTrack.notes != null)
             {
-                foreach (var note in beatTrack.notes)
+                if(beatTrack.name == "BASS_SWING")
                 {
-                    beatData.beatTimes.Add(note.time);
+                    foreach (var note in beatTrack.notes)
+                    {
+                        beatData.beatTimes.Add(note.time);
+                    }
+                }
+
+                if(beatTrack.name == "Drum" || beatTrack.id == 1)
+                {
+                    foreach (var note in beatTrack.notes)
+                    {
+                        if(note.name == "F#2"){
+                            beatData.beatTimes.Add(note.time);
+                        }
+                    }
                 }
             }
             

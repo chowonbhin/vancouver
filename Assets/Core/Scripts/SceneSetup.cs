@@ -65,13 +65,6 @@ public class SceneSetup : MonoBehaviour
         {
             JudgmentSystem.Instance.SetJudgmentUI(judgmentUI);
             Debug.Log($"현재 씬 '{gameObject.scene.name}'의 JudgmentUI를 JudgmentSystem에 연결했습니다.");
-            
-            // VR 모드인지 확인하고 Canvas 설정
-            bool isVRMode = UnityEngine.XR.XRSettings.enabled;
-            if (isVRMode)
-            {
-                judgmentUI.PositionCanvasForVR();
-            }
         }
     }
 

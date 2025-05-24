@@ -4837,7 +4837,7 @@ PrefabInstance:
     - target: {fileID: 861678570301726395, guid: 14ab335a580e81a46b8acbbb2b2c3687,
         type: 3}
       propertyPath: sceneMusicList.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 861678570301726395, guid: 14ab335a580e81a46b8acbbb2b2c3687,
         type: 3}
@@ -4846,8 +4846,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 861678570301726395, guid: 14ab335a580e81a46b8acbbb2b2c3687,
         type: 3}
+      propertyPath: sceneMusicList.Array.data[1].sceneName
+      value: BaseballScene
+      objectReference: {fileID: 0}
+    - target: {fileID: 861678570301726395, guid: 14ab335a580e81a46b8acbbb2b2c3687,
+        type: 3}
       propertyPath: sceneMusicList.Array.data[0].musicFileName
       value: TableTennis
+      objectReference: {fileID: 0}
+    - target: {fileID: 861678570301726395, guid: 14ab335a580e81a46b8acbbb2b2c3687,
+        type: 3}
+      propertyPath: sceneMusicList.Array.data[1].musicFileName
+      value: BaseBall
       objectReference: {fileID: 0}
     - target: {fileID: 2645532866966703985, guid: 14ab335a580e81a46b8acbbb2b2c3687,
         type: 3}
