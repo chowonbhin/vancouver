@@ -4,10 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
+  - XR Origin
+  - Left Controller
+  - Right Controller
+  - BaseBall
+  - Ground
+  - Selectable
   - Barrel
   - Bomb
   - PunchBag
-  - BaseBall
   layers:
   - Default
   - TransparentFX
@@ -15,13 +20,11 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - MoveArea
   - 
   - 
   - 
   - FallingObject
-  - 
-  - 
   - 
   - 
   - 
