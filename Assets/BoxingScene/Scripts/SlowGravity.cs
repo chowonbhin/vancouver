@@ -10,6 +10,7 @@ public class SlowGravity : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if (rb != null)
             rb.useGravity = false;
+
     }
 
     void FixedUpdate()

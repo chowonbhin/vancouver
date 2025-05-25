@@ -10,6 +10,9 @@ TagManager:
   - BaseBall
   - Ground
   - Selectable
+  - Barrel
+  - Bomb
+  - PunchBag
   layers:
   - Default
   - TransparentFX
@@ -21,9 +24,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - FallingObject
   - 
   - 
   - 
