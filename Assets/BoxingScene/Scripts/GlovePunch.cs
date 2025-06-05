@@ -52,6 +52,7 @@ public class GlovePunchXR : MonoBehaviour
             Rigidbody rb = other.attachedRigidbody;
             if (rb != null)
             {
+
                 Vector3 forceDirection = currentVelocity.normalized;
                 float forceStrength = currentVelocity.magnitude * 5f;
                 rb.AddForce(forceDirection * forceStrength, ForceMode.Impulse);
