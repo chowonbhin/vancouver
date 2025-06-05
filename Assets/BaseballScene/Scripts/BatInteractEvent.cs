@@ -6,7 +6,7 @@ namespace BaseBallScene
 {
     public class BatInteractEvent : MonoBehaviour
     {
-        public float maxSpeed = 10.0f; // 햅틱 최대 강도에 응하는 속도
+        public float maxSpeed = 10.0f;
         public float duration = 0.1f;
 
         XRGrabInteractable interactable;
@@ -40,6 +40,11 @@ namespace BaseBallScene
                 controller.SendHapticImpulse(amplitude, duration);
             }
         }
+
+
+
+
+
 
         public void OnEvent(SelectEnterEventArgs arg0)
         {
