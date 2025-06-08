@@ -2,21 +2,17 @@ using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections;
 using UnityEngine.InputSystem;
-using BaseBallScene;
+using System.Diagnostics;
 
 namespace BaseBallScene
 {
     public class Pitcher : MonoBehaviour
     {
-        [Header("���� ����")]
-        // ���� �������� �������� �����Ϳ��� �Ҵ�
         public Transform startPoint;
         public Transform endPoint;
         public Ball ballPref;
         public Transform balls;
-        // ���� �������� �����ϴµ� �ɸ��� �ð� (��)
         public float duration = 1.5f;
-        // ���� �ڿ����� ������µ� �ɸ��� �ð� (��)
         public float liveTime = 6f;
         private IObjectPool<Ball> objectPool;
 
@@ -30,34 +26,32 @@ namespace BaseBallScene
             {
                 var ball = Instantiate(ballPref, balls, false);
                 ball.gameObject.SetActive(false);
+                ball.state = Ball.RhythmState.None;
                 ball.tag = "BaseBall";
                 return ball;
             },
             actionOnGet: ball =>
             {
-                ball.ResetState();
-                ball.gameObject.SetActive(true);
                 var tr = ball.GetComponent<Transform>();
-                var rb = ball.GetComponent<Rigidbody>();
                 tr.position = startPoint.position;
-                rb.velocity = Vector3.zero;
-                // 새 RhythmData 추가 및 초기화
-                if(ball.gameObject.GetComponent<RhythmData>() == null){
+                ball.gameObject.SetActive(true);
+                ball.FireEffect.On();
+                ball.state = Ball.RhythmState.None;
+                if (ball.gameObject.GetComponent<RhythmData>() == null){
                     RhythmData rhythmData = ball.gameObject.AddComponent<RhythmData>();
                     rhythmData.Initialize(currentBeatTime);
-                    Debug.Log($"리듬 데이터 추가: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
+                    UnityEngine.Debug.Log($"리듬 데이터 추가: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
                 }
                 else{
                     RhythmData rhythmData = ball.gameObject.GetComponent<RhythmData>();
                     rhythmData.Edit(Time.time, currentBeatTime);
-                    Debug.Log($"리듬 데이터 수정: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
+                    UnityEngine.Debug.Log($"리듬 데이터 수정: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
                 }
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),
             collectionCheck: false,
             defaultCapacity: 50);
-
             throwAction.action.performed += onThrow;
 
         }
@@ -73,31 +67,66 @@ namespace BaseBallScene
         public GameObject ThrowBall(float duration, float beatTime)
         {
             currentBeatTime = beatTime;
-
             var ball = objectPool.Get();
-            var tr = ball.GetComponent<Transform>();
-            var rb = ball.GetComponent<Rigidbody>();
-            Vector3 distance = endPoint.position - startPoint.position;
-            Vector3 initialVelocity = distance / duration - 0.5f * Physics.gravity * duration;
-            rb.velocity = initialVelocity;
+            StartCoroutine(ParabolicMovement(ball, duration));
             StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
-
-            if(ball.tag != "BaseBall"){
+            if (ball.tag != "BaseBall")
+            {
                 ball.tag = "BaseBall";
             }
-
             return ball.gameObject;
+
         }
 
+        Vector3 GetPositionAtTime(Vector3 start, Vector3 end, float duration, float t)
+        {
+            Vector3 g = Physics.gravity;
+            Vector3 initialVelocity = (end - start - 0.5f * g * duration * duration) / duration;
+            return start + initialVelocity * t + 0.5f * g * t * t;
+        }
+
+        // t 시점 속도 반환
+        Vector3 GetVelocityAtTime(Vector3 start, Vector3 end, float duration, float t)
+        {
+            Vector3 g = Physics.gravity;
+            Vector3 initialVelocity = (end - start - 0.5f * g * duration * duration) / duration;
+            return initialVelocity + g * t;
+        }
+
+        private IEnumerator ParabolicMovement(Ball ball, float duration)
+        {
+            Vector3 start = startPoint.position;
+            Vector3 end = endPoint.position;
+            float timeElapsed = 0f;
+            while (timeElapsed < duration)
+            {
+                if (ball.state == Ball.RhythmState.Hit)
+                {
+                    break;
+                }
+                timeElapsed += Time.deltaTime;
+                ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
+                yield return null;
+            }
+            if(ball.state != Ball.RhythmState.Hit)
+            {
+                ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
+                Vector3 finalVelocity = GetVelocityAtTime(start, end, duration, timeElapsed);
+                ball.SetRBVelocity(finalVelocity);
+            }
+        }
         private IEnumerator ReturnToPoolAfterTime(Ball ball, float time)
         {
             yield return new WaitForSeconds(time);
+            ball.FireEffect.Off();
+            ball.gameObject.SetActive(false);
             objectPool.Release(ball);
         }
 
         private void OnDestroy()
         {
             throwAction.action.performed -= onThrow;
+            objectPool.Clear();
         }
     }
 }
