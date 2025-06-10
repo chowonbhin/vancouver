@@ -52,8 +52,6 @@ namespace BaseBallScene
             var ball = other.gameObject.GetComponent<Ball>();
             if (ball == null || ball.state != Ball.RhythmState.None) return;
 
-            Debug.Log("Cooi");
-
             var rhythmData = ball.gameObject.GetComponent<RhythmData>();
 
             if (BatInteract.CurrentGrabInputDevice.HasValue)
@@ -69,11 +67,14 @@ namespace BaseBallScene
                     Vector3 swingDir = Vector3.Cross(angularVelWorld, batDirection).normalized;
 
                     float swingStrength = angularVelWorld.magnitude * batDirection.magnitude;
-                    if (swingStrength > 5)
+                    if (swingStrength > 10)
                     {
                         Vector3 impulse = swingDir * swingStrength;
                         ball.SetImpulseValue(impulse);
-                        InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
+                        if(InteractionNotifier.Instance !=null)
+                        {
+                            InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
+                        }
                     }
                 }
             }

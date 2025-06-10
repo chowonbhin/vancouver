@@ -316,7 +316,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FireEffect: {fileID: 3364258251884735323}
   state: 0
-  force: 8
+  force: 20
 --- !u!1001 &5430295525433612581
 PrefabInstance:
   m_ObjectHideFlags: 0
