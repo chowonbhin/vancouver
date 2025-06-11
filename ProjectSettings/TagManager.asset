@@ -13,6 +13,9 @@ TagManager:
   - Barrel
   - Bomb
   - PunchBag
+  - Ball
+  - PingpongBall
+  - processed
   layers:
   - Default
   - TransparentFX
