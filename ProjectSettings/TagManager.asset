@@ -16,6 +16,7 @@ TagManager:
   - Ball
   - PingpongBall
   - processed
+  - BaseBall Bat
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Water
   - UI
   - MoveArea
-  - 
+  - Bat
   - 
   - 
   - FallingObject
