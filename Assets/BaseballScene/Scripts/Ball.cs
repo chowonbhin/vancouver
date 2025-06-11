@@ -1,60 +1,48 @@
 using System;
+using System.Net;
 using UnityEngine;
 namespace BaseBallScene
 {
     public class Ball : MonoBehaviour
     {
-        public enum BallState
+        public enum RhythmState
         {
-            Normal,
+            None,
             Hit,
-            Miss,
+            Miss
         }
 
-        BallState currentState = BallState.Normal;
-
-        public void ResetState()
+        public FireEffect FireEffect;
+        public RhythmState state;
+        private Vector3 Dir;
+        public float force;
+        Rigidbody rb;
+        Collider col;
+        private void Awake()
         {
-            currentState = BallState.Normal;
+            rb = GetComponent<Rigidbody>();
+            col = GetComponent<Collider>();
+
         }
-
-        private void OnCollisionEnter(Collision collision)
+        public void SetImpulseValue(Vector3 dir)
         {
-            if(collision.gameObject.CompareTag("Ground"))
-            {
-                if (currentState == BallState.Normal)
-                {
-                    currentState = BallState.Miss;
-                    OnStateChange();
-                }
-            }
-            else
-            {
-                var bat = collision.gameObject.GetComponent<Bat>();
-
-                if (bat != null && currentState == BallState.Normal)
-                {
-                    currentState = BallState.Hit;
-                    OnStateChange();
-                }
-            }
+            Dir = dir.normalized;
         }
-
-        void OnStateChange()
+        public void SetIsTrigger(bool b)
         {
-            switch (currentState)
-            {
-                case BallState.Normal:
-                    break;
-                case BallState.Hit:
-                    ScoreSystem.instance.Hit();
-                    break;
-                case BallState.Miss:
-                    ScoreSystem.instance.Miss();
-                    break;
-                default:
-                    break;
-            }
+            col.isTrigger = b;
+        }
+        public void SetIsKinematic(bool b)
+        {
+            rb.isKinematic = b;
+        }
+        public void SetRBVelocity(Vector3 vel)
+        {
+            rb.velocity = vel;
+        }
+        public void Impuse()
+        {
+            rb.velocity = Dir * force;
         }
     }
 }

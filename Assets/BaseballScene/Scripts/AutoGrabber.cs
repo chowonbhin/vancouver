@@ -1,28 +1,24 @@
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using Unity.VisualScripting;
 
-namespace HP
+namespace BaseBallScene
 {
-    public class ManualGrabber : MonoBehaviour
+    public class AutoGrabber : MonoBehaviour
     {
+        public InputActionReference autoGrabAction;
         public XRBaseInteractor interactor;
-        public XRNode node;
         public XRGrabInteractable grabInteractable;
-        public InputHelpers.Button grabButton = InputHelpers.Button.PrimaryButton;
-        void Update()
+
+        private void Start()
         {
-            // InputDevice에서 Grab 버튼 상태 가져오기
-            InputDevice device = InputDevices.GetDeviceAtXRNode(node);
-            bool isPressed = false;
-
-            if (device.isValid)
-            {
-                InputHelpers.IsPressed(device, grabButton, out isPressed);
-            }
-
-            // Grab 버튼이 눌렸을 때 동작
-            if (isPressed && grabInteractable)
+            autoGrabAction.action.performed += onAutoGrab;
+        }
+        void onAutoGrab(InputAction.CallbackContext ctx)
+        {
+            if (ctx.ReadValueAsButton())
             {
                 // 레이로 선택한 물체가 없고, 있으면 선택
                 if (!interactor.hasSelection) // 레이로 아무것도 선택하지 않았으면

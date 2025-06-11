@@ -97,7 +97,7 @@ public class ObjectLauncher : MonoBehaviour
     private GameObject TrackLastLaunchedObject()
     {
         // 적절한 태그로 검색 (씬에 맞게 조정 필요)
-        string[] possibleTags = { "Ball", "PingpongBall", "PunchBag", "Bomb" };
+        string[] possibleTags = { "BaseBall", "PingpongBall", "PunchBag", "Bomb" };
         
         foreach (string tag in possibleTags)
         {

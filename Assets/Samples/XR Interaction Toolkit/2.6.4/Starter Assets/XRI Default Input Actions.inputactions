@@ -2743,6 +2743,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AutoGrab",
+                    "type": "Button",
+                    "id": "0bddf00b-6ec7-4d2e-bdf4-45474758f2c1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -2754,6 +2763,17 @@
                     "processors": "",
                     "groups": ";Generic XR Controller",
                     "action": "ThrowBall",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5f0a988d-e9b1-48f9-90dc-b72b2cfadac8",
+                    "path": "<XRController>{RightHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Generic XR Controller",
+                    "action": "AutoGrab",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
