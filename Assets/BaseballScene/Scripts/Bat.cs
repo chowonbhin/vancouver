@@ -11,13 +11,16 @@ namespace BaseBallScene
         public Transform batHandle;
 
         public GameObject hitVfxObj;
-        AudioSource audioSource;
+        public AudioSource PositiveHit;
+        public AudioSource NegativeHit;
+
         VisualEffect hitVfx;
         BatInteractEvent BatInteract;
 
+
+
         private void Start()
         {
-            audioSource = GetComponent<AudioSource>();
             BatInteract = GetComponent<BatInteractEvent>();
             hitVfx = hitVfxObj.GetComponentInChildren<VisualEffect>();
             if(JudgmentSystem.Instance != null)
@@ -37,11 +40,11 @@ namespace BaseBallScene
                     ball.Impuse();
                     hitVfxObj.transform.position = ball.gameObject.transform.position;
                     hitVfx.Play();
-                    audioSource.Play();
+                    PositiveHit.Play();
                 }
                 else
                 {
-
+                    NegativeHit.Play();
                     ball.state = Ball.RhythmState.Miss;
                 }
             }
