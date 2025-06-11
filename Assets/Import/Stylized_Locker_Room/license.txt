@@ -1,0 +1,11 @@
+Model Information:
+* title:	Stylized Locker Room
+* source:	https://sketchfab.com/3d-models/stylized-locker-room-e7ffc07dfa094f83bac4ce3bae01d807
+* author:	Pukka Films (https://sketchfab.com/pukkafilms)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Stylized Locker Room" (https://sketchfab.com/3d-models/stylized-locker-room-e7ffc07dfa094f83bac4ce3bae01d807) by Pukka Films (https://sketchfab.com/pukkafilms) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
