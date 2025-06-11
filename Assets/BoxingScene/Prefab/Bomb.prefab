@@ -5093,7 +5093,7 @@ GameObject:
   - component: {fileID: 8688272341834186059}
   - component: {fileID: 5006716637574148494}
   - component: {fileID: 4491669557610309070}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bomb
   m_TagString: Bomb
   m_Icon: {fileID: 0}
