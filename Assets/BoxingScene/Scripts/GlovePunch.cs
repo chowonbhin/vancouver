@@ -2,18 +2,15 @@
 using UnityEngine.XR;
 using TMPro;
 using static UnityEngine.UI.Image;
+using UnityEngine.AI;
 
 public class GlovePunchXR : MonoBehaviour
 {
     public XRNode controllerNode = XRNode.RightHand;
     public float minPunchSpeed = 1.0f;
-
-    public int hitCount = 0;
-    public TextMeshProUGUI hitText;
+    public Mesh[] newMesh;
     public AudioClip punchSound;
     public GameObject fractured;
-    //public GameObject spawnManager;    // Объект с компонентом Spawn.cs
-
     private AudioSource audioSource;
     private Vector3 currentVelocity;
     private InputDevice device;
@@ -24,8 +21,7 @@ public class GlovePunchXR : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         device = InputDevices.GetDeviceAtXRNode(controllerNode);
 
-        if (hitText != null)
-            hitText.text = "Hits: 0";
+    
     }
 
     void Update()
@@ -41,20 +37,18 @@ public class GlovePunchXR : MonoBehaviour
     {
         if ((other.CompareTag("PunchBag") || other.CompareTag("Bomb")) && currentVelocity.magnitude > minPunchSpeed)
         {
-            hitCount++;
 
             if (audioSource != null && punchSound != null)
                 audioSource.PlayOneShot(punchSound);
 
-            if (hitText != null)
-                hitText.text = "Hits: " + hitCount;
+      
 
             Rigidbody rb = other.attachedRigidbody;
             if (rb != null)
             {
 
                 Vector3 forceDirection = currentVelocity.normalized;
-                float forceStrength = currentVelocity.magnitude * 5f;
+                float forceStrength = currentVelocity.magnitude * 1.1f;
                 rb.AddForce(forceDirection * forceStrength, ForceMode.Impulse);
             }
 
@@ -62,6 +56,12 @@ public class GlovePunchXR : MonoBehaviour
             ParticleSystem ps = other.GetComponentInChildren<ParticleSystem>();
             if (ps != null)
             {
+                ParticleSystemRenderer renderer = ps.GetComponent<ParticleSystemRenderer>();
+                if (renderer != null &&  newMesh != null && newMesh.Length > 0) 
+                {
+                    renderer.renderMode = ParticleSystemRenderMode.Mesh;
+                    renderer.mesh = newMesh[Random.Range(0, newMesh.Length)]; 
+                }
                 ps.transform.parent = null;
                 ps.Play();
                 Destroy(ps.gameObject, ps.main.duration + 0.5f);
