@@ -8,6 +8,11 @@ namespace BaseBallScene
         {
             base.OnEvent(arg);
             CurrentGrabDevice.SendHapticImpulse(0.05f, 0.05f);
+
+
+
+
+
         }
     }
 }

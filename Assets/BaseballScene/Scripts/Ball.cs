@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 namespace BaseBallScene
 {
     public class Ball : MonoBehaviour
@@ -14,19 +15,33 @@ namespace BaseBallScene
 
         public FireEffect FireEffect;
         public RhythmState state;
-        private Vector3 Dir;
-        public float force;
+        private Vector3 Impulse;
+        public bool IsHomRun;
         Rigidbody rb;
         Collider col;
+
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             col = GetComponent<Collider>();
 
         }
-        public void SetImpulseValue(Vector3 dir)
+        public void SetImpulseValue(Vector3 impluse)
         {
-            Dir = dir.normalized;
+            float magnitude = impluse.magnitude;
+            if (magnitude > 15f)
+            {
+                Impulse = impluse.normalized * 15f;
+            }
+            else if (magnitude < 5f) 
+            {
+                Impulse = impluse.normalized * 5;
+            }
+            else
+            {
+                Impulse = impluse;
+            }
         }
         public void SetIsTrigger(bool b)
         {
@@ -42,7 +57,7 @@ namespace BaseBallScene
         }
         public void Impuse()
         {
-            rb.velocity = Dir * force;
+            rb.velocity = Impulse;
         }
     }
 }

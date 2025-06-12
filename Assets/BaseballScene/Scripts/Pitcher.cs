@@ -15,9 +15,7 @@ namespace BaseBallScene
         public float duration = 1.5f;
         public float liveTime = 6f;
         private IObjectPool<Ball> objectPool;
-
         private float currentBeatTime = 0f;
-
         public InputActionReference throwAction;
 
         void Start()
@@ -36,6 +34,7 @@ namespace BaseBallScene
                 tr.position = startPoint.position;
                 ball.gameObject.SetActive(true);
                 ball.FireEffect.On();
+                ball.IsHomRun = false;
                 ball.state = Ball.RhythmState.None;
                 if (ball.gameObject.GetComponent<RhythmData>() == null){
                     RhythmData rhythmData = ball.gameObject.AddComponent<RhythmData>();
@@ -53,7 +52,6 @@ namespace BaseBallScene
             collectionCheck: false,
             defaultCapacity: 50);
             throwAction.action.performed += onThrow;
-
         }
 
         private void onThrow(InputAction.CallbackContext ctx)
@@ -108,7 +106,7 @@ namespace BaseBallScene
                 ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
                 yield return null;
             }
-            if(ball.state != Ball.RhythmState.Hit)
+            if(ball.state == Ball.RhythmState.None)
             {
                 ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
                 Vector3 finalVelocity = GetVelocityAtTime(start, end, duration, timeElapsed);
