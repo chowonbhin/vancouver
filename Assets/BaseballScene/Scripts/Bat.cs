@@ -118,7 +118,6 @@ namespace BaseBallScene
                         bool isUpperSwing = upwardAngle >= 20f && upwardAngle <= 45f;
                         bool isStrongEnough = swingStrength > 10f;
                         ball.IsHomRun = isUpperSwing && isStrongEnough;
-                        ball.IsHomRun = true;
 
                         if (InteractionNotifier.Instance !=null)
                         {
