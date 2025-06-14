@@ -17,7 +17,7 @@ namespace BaseBallScene
         private IObjectPool<Ball> objectPool;
         private float currentBeatTime = 0f;
         public InputActionReference throwAction;
-
+        public PitcherEvent pitcherEvent;
         void Start()
         {
             objectPool = new UnityEngine.Pool.ObjectPool<Ball>(createFunc: () =>
@@ -46,6 +46,19 @@ namespace BaseBallScene
                     rhythmData.Edit(Time.time, currentBeatTime);
                     UnityEngine.Debug.Log($"리듬 데이터 수정: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
                 }
+
+                float randomValue = Random.value;
+                if (randomValue < 0.2f)
+                {
+                    ball.PitcherE =  (Random.value < 0.5f)? Ball.SwingEvent.Right : Ball.SwingEvent.Left;
+                }
+                else
+                {
+                    ball.PitcherE = Ball.SwingEvent.None;
+                }
+
+                // Debug
+                ball.PitcherE = (Random.value < 0.5f) ? Ball.SwingEvent.Right : Ball.SwingEvent.Left;
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),
@@ -66,8 +79,9 @@ namespace BaseBallScene
         {
             currentBeatTime = beatTime;
             var ball = objectPool.Get();
+            pitcherEvent.OnEventImg(ball.PitcherE);
             StartCoroutine(ParabolicMovement(ball, duration));
-            StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
+            ball.ReturnCoroutine = StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
             if (ball.tag != "BaseBall")
             {
                 ball.tag = "BaseBall";
@@ -113,12 +127,25 @@ namespace BaseBallScene
                 ball.SetRBVelocity(finalVelocity);
             }
         }
+
+
+
+        public void ReturnBall(Ball ball)
+        {
+            ball.FireEffect.Off();
+            if(ball.ReturnCoroutine != null)
+            {
+                StopCoroutine(ball.ReturnCoroutine);
+            }
+            ball.ReturnCoroutine = null;
+            ball.gameObject.SetActive(false);
+            objectPool.Release(ball);
+        }
+
         private IEnumerator ReturnToPoolAfterTime(Ball ball, float time)
         {
             yield return new WaitForSeconds(time);
-            ball.FireEffect.Off();
-            ball.gameObject.SetActive(false);
-            objectPool.Release(ball);
+            ReturnBall(ball);
         }
 
         private void OnDestroy()

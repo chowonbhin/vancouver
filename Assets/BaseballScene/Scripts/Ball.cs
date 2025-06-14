@@ -12,11 +12,21 @@ namespace BaseBallScene
             Hit,
             Miss
         }
-
+        public enum SwingEvent
+        {
+            None,
+            Left,
+            Right
+        }
+        public Coroutine ReturnCoroutine;
         public FireEffect FireEffect;
         public RhythmState state;
         private Vector3 Impulse;
         public bool IsHomRun;
+        public SwingEvent PitcherE;
+        public Vector3 swingDir;
+        public float swingStrength;
+
         Rigidbody rb;
         Collider col;
 
@@ -27,6 +37,12 @@ namespace BaseBallScene
             col = GetComponent<Collider>();
 
         }
+
+        public void SetImpulseForce(float f)
+        {
+            Impulse = Impulse.normalized * f;
+        }
+
         public void SetImpulseValue(Vector3 impluse)
         {
             float magnitude = impluse.magnitude;

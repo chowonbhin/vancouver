@@ -317,6 +317,9 @@ MonoBehaviour:
   FireEffect: {fileID: 3364258251884735323}
   state: 0
   IsHomRun: 0
+  Pitcher: 0
+  swingDir: {x: 0, y: 0, z: 0}
+  swingStrength: 0
 --- !u!1001 &5430295525433612581
 PrefabInstance:
   m_ObjectHideFlags: 0
