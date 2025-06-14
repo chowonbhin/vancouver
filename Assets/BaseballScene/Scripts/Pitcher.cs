@@ -56,9 +56,6 @@ namespace BaseBallScene
                 {
                     ball.PitcherE = Ball.SwingEvent.None;
                 }
-
-                // Debug
-                ball.PitcherE = (Random.value < 0.5f) ? Ball.SwingEvent.Right : Ball.SwingEvent.Left;
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),
