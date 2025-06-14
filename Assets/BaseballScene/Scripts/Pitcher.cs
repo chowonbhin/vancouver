@@ -61,7 +61,7 @@ namespace BaseBallScene
             actionOnDestroy: ball => Destroy(ball.gameObject),
             collectionCheck: false,
             defaultCapacity: 50);
-            throwAction.action.performed += onThrow;
+            //throwAction.action.performed += onThrow;
         }
 
         private void onThrow(InputAction.CallbackContext ctx)
