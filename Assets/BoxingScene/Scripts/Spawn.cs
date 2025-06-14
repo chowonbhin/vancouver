@@ -49,8 +49,34 @@ public class Spawn : MonoBehaviour
         slowGravity.gravityForce = distance/time; 
         Destroy(newBall.gameObject, 15f);
 
-        //test score board
-       
+        //adding bonus target
+        int events = Random.Range(0, 3);
+        if(events == 1 ){
+
+            Transform[] children = newBall.GetComponentsInChildren<Transform>(true);
+
+            var targets = new System.Collections.Generic.List<GameObject>();
+
+            foreach (Transform child in children)
+            {
+                if ( child.CompareTag("bonusTarget")) //  or child.name  == "bonusTarget"
+                {
+                    targets.Add(child.gameObject);
+                }
+            }
+            // deactivation
+            foreach (var t in targets)
+            {
+                t.SetActive(false);
+            }
+
+            if (targets.Count > 0)
+            {
+                int index = Random.Range(0, targets.Count);
+                targets[index].SetActive(true);
+            }
+        }
+
     }
 
 }

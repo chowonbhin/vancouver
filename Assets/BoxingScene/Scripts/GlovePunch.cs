@@ -35,13 +35,11 @@ public class GlovePunchXR : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if ((other.CompareTag("PunchBag") || other.CompareTag("Bomb")) && currentVelocity.magnitude > minPunchSpeed)
+        if ((other.CompareTag("PunchBag") || other.CompareTag("Bomb"))  && currentVelocity.magnitude > minPunchSpeed)// 
         {
-
             if (audioSource != null && punchSound != null)
                 audioSource.PlayOneShot(punchSound);
-
-      
+            effects(other);
 
             Rigidbody rb = other.attachedRigidbody;
             if (rb != null)
@@ -52,66 +50,20 @@ public class GlovePunchXR : MonoBehaviour
                 rb.AddForce(forceDirection * forceStrength, ForceMode.Impulse);
             }
 
-            
-            ParticleSystem ps = other.GetComponentInChildren<ParticleSystem>();
-            if (ps != null)
-            {
-                ParticleSystemRenderer renderer = ps.GetComponent<ParticleSystemRenderer>();
-                if (renderer != null &&  newMesh != null && newMesh.Length > 0) 
-                {
-                    renderer.renderMode = ParticleSystemRenderMode.Mesh;
-                    renderer.mesh = newMesh[Random.Range(0, newMesh.Length)]; 
-                }
-                ps.transform.parent = null;
-                ps.Play();
-                Destroy(ps.gameObject, ps.main.duration + 0.5f);
-            }
-
-            // 2. VFX Graph
-            UnityEngine.VFX.VisualEffect vfx = other.GetComponentInChildren<UnityEngine.VFX.VisualEffect>();
-            if (vfx != null)
-            {
-                vfx.transform.parent = null;
-                vfx.Play();
-                Destroy(vfx.gameObject, 2f); 
-            }
-
             Destroy(other.gameObject, 1.5f);
 
-            //if (spawnManager != null)
-            //{
-            //    spawnManager.GetComponent<Spawn>().SpawnBall();
-            //}
         }
 
         else if (other.CompareTag("Barrel") && currentVelocity.magnitude > minPunchSpeed)
         {
-            
-
             if (audioSource != null && punchSound != null)
                 audioSource.PlayOneShot(punchSound);
+            effects(other);
 
 
-
-            ParticleSystem ps = other.GetComponentInChildren<ParticleSystem>();
-            if (ps != null)
-            {
-                ps.transform.parent = null;
-                ps.Play();
-                Destroy(ps.gameObject, ps.main.duration + 0.5f);
-            }
-
-            // 2. VFX Graph
-            UnityEngine.VFX.VisualEffect vfx = other.GetComponentInChildren<UnityEngine.VFX.VisualEffect>();
-            if (vfx != null)
-            {
-                vfx.transform.parent = null;
-                vfx.Play();
-                Destroy(vfx.gameObject, 2f);
-            }
             Transform bombSpawnTransform = other.transform.Find("BombSpawn");
 
-           
+
             if (bombSpawnTransform != null)
             {
                 Spawn spawner = bombSpawnTransform.GetComponent<Spawn>();
@@ -131,10 +83,33 @@ public class GlovePunchXR : MonoBehaviour
 
             SpawnFracturedObject(other.gameObject);
 
-            //if (spawnManager != null)
-            //{
-            //    spawnManager.GetComponent<Spawn>().SpawnBall();
-            //}
+
+        } else if (other.CompareTag("bonusTarget" ) && currentVelocity.magnitude > minPunchSpeed) { 
+
+
+            Debug.Log("Hit bonus");
+            if (audioSource != null && punchSound != null)
+                audioSource.PlayOneShot(punchSound);
+
+            effects(other);
+
+            Transform root = FindParentWithTag(other.transform, "PunchBag"); 
+            if (root != null)
+            {
+                Debug.Log("found Parent");
+                effects(root.GetComponent<Collider>()); 
+            }
+
+            Rigidbody rb = root.GetComponent<Collider>().attachedRigidbody;
+            if (rb != null)
+            {
+
+                Vector3 forceDirection = currentVelocity.normalized;
+                float forceStrength = currentVelocity.magnitude * 1.1f;
+                rb.AddForce(forceDirection * forceStrength, ForceMode.Impulse);
+            }
+
+            Destroy(root.gameObject, 1.5f);
         }
     }
 
@@ -165,4 +140,50 @@ public class GlovePunchXR : MonoBehaviour
             Debug.LogWarning("Fractured barrel prefab is not assigned!");
         }
     }
+
+    public void effects(Collider objc) {
+
+        
+
+        ParticleSystem ps = objc.GetComponentInChildren<ParticleSystem>();
+        if (ps != null)
+        {
+            ParticleSystemRenderer renderer = ps.GetComponent<ParticleSystemRenderer>();
+            if (renderer != null && newMesh != null && newMesh.Length > 0)
+            {
+                renderer.renderMode = ParticleSystemRenderMode.Mesh;
+                renderer.mesh = newMesh[Random.Range(0, newMesh.Length)];// here u can set number [0: "1", 1:"2", 2:"3"] newMesh[0] => "1"
+            }
+            ps.transform.parent = null;
+            ps.Play();
+            Destroy(ps.gameObject, ps.main.duration + 0.5f);
+        }
+
+
+        // 2. VFX Graph
+        UnityEngine.VFX.VisualEffect vfx = objc.GetComponentInChildren<UnityEngine.VFX.VisualEffect>();
+        if (vfx != null)
+        {
+            vfx.transform.parent = null;
+            vfx.Play();
+            Destroy(vfx.gameObject, 2f);
+        }
+    }
+
+    private Transform FindParentWithTag(Transform child, string tag)
+    {
+        Transform current = child;
+
+        while (current != null)
+        {
+            if (current.CompareTag(tag))
+            {
+                return current;
+            }
+            current = current.parent;
+        }
+
+        return null;
+    }
+
 }
