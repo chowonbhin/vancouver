@@ -10,11 +10,18 @@ public class FireEffect : MonoBehaviour
     public TrailRenderer Trail;
     public TrailRenderer TrailAdd;
 
+    private void Awake()
+    {
+        Off();
+    }
 
+    public void OnSpecial()
+    {
+        Spire.Play();
+    }
 
     public void On()
     {
-        Spire.Play();
         Fleart.Play();
         Trail.Clear();
         TrailAdd.Clear();

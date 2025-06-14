@@ -31,6 +31,7 @@ namespace BaseBallScene
             var controllerInteractor = arg.interactorObject as XRBaseControllerInteractor;
             SetCurrentGrabDevice(null);
         }
+
         public virtual void TriggerHapticsForSelector(float amplitude, float duration)
         {
             foreach (var interactor in interactable.interactorsSelecting)

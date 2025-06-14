@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 namespace BaseBallScene
 {
     public class Ball : MonoBehaviour
@@ -11,22 +12,52 @@ namespace BaseBallScene
             Hit,
             Miss
         }
-
+        public enum SwingEvent
+        {
+            None,
+            Left,
+            Right
+        }
+        public Coroutine ReturnCoroutine;
         public FireEffect FireEffect;
         public RhythmState state;
-        private Vector3 Dir;
-        public float force;
+        private Vector3 Impulse;
+        public bool IsHomRun;
+        public SwingEvent PitcherE;
+        public Vector3 swingDir;
+        public float swingStrength;
+
         Rigidbody rb;
         Collider col;
+
+
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
             col = GetComponent<Collider>();
 
         }
-        public void SetImpulseValue(Vector3 dir)
+
+        public void SetImpulseForce(float f)
         {
-            Dir = dir.normalized;
+            Impulse = Impulse.normalized * f;
+        }
+
+        public void SetImpulseValue(Vector3 impluse)
+        {
+            float magnitude = impluse.magnitude;
+            if (magnitude > 15f)
+            {
+                Impulse = impluse.normalized * 15f;
+            }
+            else if (magnitude < 5f) 
+            {
+                Impulse = impluse.normalized * 5;
+            }
+            else
+            {
+                Impulse = impluse;
+            }
         }
         public void SetIsTrigger(bool b)
         {
@@ -42,7 +73,7 @@ namespace BaseBallScene
         }
         public void Impuse()
         {
-            rb.velocity = Dir * force;
+            rb.velocity = Impulse;
         }
     }
 }
