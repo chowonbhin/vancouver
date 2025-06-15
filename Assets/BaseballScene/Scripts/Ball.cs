@@ -10,7 +10,8 @@ namespace BaseBallScene
         {
             None,
             Hit,
-            Miss
+            TimeMiss,
+            Miss,
         }
         public enum SwingEvent
         {
@@ -18,6 +19,7 @@ namespace BaseBallScene
             Left,
             Right
         }
+        public Coroutine BadBallCoroutine;
         public Coroutine ParabolicCoroutine;
         public Coroutine ReturnCoroutine;
         public FireEffect FireEffect;
