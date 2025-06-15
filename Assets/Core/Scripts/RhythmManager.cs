@@ -189,23 +189,24 @@ public class RhythmManager : MonoBehaviour
             
             // 발사 타이밍 계산: 비트 시간 - 리드 타임 ≤ 현재 시간
             while (nextBeatIndex < currentBeatData.beatTimes.Count && 
-                currentBeatData.beatTimes[nextBeatIndex] - currentLeadTime <= currentMusicTime)
+                currentBeatData.beatTimes[nextBeatIndex].Item1 - currentLeadTime <= currentMusicTime)
             {
-                float beatTime = currentBeatData.beatTimes[nextBeatIndex];
-                
+                float beatTime = currentBeatData.beatTimes[nextBeatIndex].Item1;
+                bool isBarrel = currentBeatData.beatTimes[nextBeatIndex].Item2;
+
                 Debug.Log($"비트 {nextBeatIndex} 처리 중: 비트 시간 {beatTime:F2}초, 현재 음악 시간 {currentMusicTime:F2}초");
                 
                 // 발사기를 통해 오브젝트 발사
                 if (currentLauncher != null)
                 {
                     Debug.Log($"비트 {nextBeatIndex}: 오브젝트 발사 시도");
-                    GameObject launchedObject = currentLauncher.Launch(beatTime);
+                    GameObject launchedObject = currentLauncher.Launch(beatTime, isBarrel);
                     
                     // ObjectLauncher가 RhythmData를 추가하지 않은 경우 여기서 추가
                     if (launchedObject != null && launchedObject.GetComponent<RhythmData>() == null)
                     {
                         RhythmData rhythmData = launchedObject.AddComponent<RhythmData>();
-                        rhythmData.Initialize(beatTime);
+                        rhythmData.Initialize(beatTime, isBarrel);
                         Debug.Log($"리듬 데이터 추가: 오브젝트 '{launchedObject.name}', 타겟시간 {beatTime}");
                     }
                     
