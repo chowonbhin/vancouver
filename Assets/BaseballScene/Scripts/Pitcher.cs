@@ -1,9 +1,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using System.Collections;
-using UnityEngine.InputSystem;
 using System.Diagnostics;
-using Unity.VisualScripting;
 
 namespace BaseBallScene
 {
@@ -17,8 +15,6 @@ namespace BaseBallScene
         public float duration = 1.5f;
         public float liveTime = 6f;
         private IObjectPool<Ball> objectPool;
-        private float currentBeatTime = 0f;
-        public InputActionReference throwAction;
         public PitcherEvent pitcherEvent;
         void Start()
         {
@@ -38,16 +34,6 @@ namespace BaseBallScene
                 ball.FireEffect.On();
                 ball.IsHomRun = false;
                 ball.state = Ball.RhythmState.None;
-                if (ball.gameObject.GetComponent<RhythmData>() == null){
-                    RhythmData rhythmData = ball.gameObject.AddComponent<RhythmData>();
-                    rhythmData.Initialize(currentBeatTime);
-                    UnityEngine.Debug.Log($"리듬 데이터 추가: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
-                }
-                else{
-                    RhythmData rhythmData = ball.gameObject.GetComponent<RhythmData>();
-                    rhythmData.Edit(Time.time, currentBeatTime);
-                    UnityEngine.Debug.Log($"리듬 데이터 수정: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
-                }
 
                 float randomValue = Random.value;
                 if (randomValue < 0.2f)
@@ -63,26 +49,15 @@ namespace BaseBallScene
             actionOnDestroy: ball => Destroy(ball.gameObject),
             collectionCheck: false,
             defaultCapacity: 50);
-
-
-            //Debug
-            //throwAction.action.performed += onThrow;
         }
 
-        private void onThrow(InputAction.CallbackContext ctx)
-        {
-            if (ctx.ReadValueAsButton())
-            {
-                ThrowBall(duration, currentBeatTime);
-            }
-        }
 
         public GameObject ThrowBall(float duration, float beatTime)
         {
-            currentBeatTime = beatTime;
+            // currentBeatTime = beatTime;
             var ball = objectPool.Get();
             pitcherEvent.OnEventImg(ball.PitcherE);
-            ball.ParabolicCoroutine =StartCoroutine(ParabolicMovement(ball, duration));
+            ball.ParabolicCoroutine =StartCoroutine(ParabolicMovement(ball, duration, beatTime));
             ball.ReturnCoroutine = StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
             if (ball.tag != "BaseBall")
             {
@@ -107,7 +82,7 @@ namespace BaseBallScene
             return initialVelocity + g * t;
         }
 
-        private IEnumerator ParabolicMovement(Ball ball, float duration)
+        private IEnumerator ParabolicMovement(Ball ball, float duration,float beatTime)
         {
             Vector3 start = startPoint.position;
             Vector3 end = endPoint.position;
@@ -129,15 +104,17 @@ namespace BaseBallScene
                 ball.SetRBVelocity(finalVelocity);
             }
 
-            while (timeElapsed < duration+1.5f)
+            while (timeElapsed < duration + 1.0f)
             {
                 timeElapsed += Time.deltaTime;
+                yield return null;
             }
 
             if (ball.state == Ball.RhythmState.None)
             {
                 if (InteractionNotifier.Instance != null)
                 {
+                    ball.state = Ball.RhythmState.Miss;
                     InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
                 }
             }
@@ -171,7 +148,6 @@ namespace BaseBallScene
 
         private void OnDestroy()
         {
-            throwAction.action.performed -= onThrow;
             objectPool.Clear();
         }
     }

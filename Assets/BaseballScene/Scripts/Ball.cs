@@ -10,7 +10,8 @@ namespace BaseBallScene
         {
             None,
             Hit,
-            Miss
+            TimeMiss,
+            Miss,
         }
         public enum SwingEvent
         {

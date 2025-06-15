@@ -2098,13 +2098,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6190762, y: 0.756814, z: -0.10229352, w: 0.18306667}
-  m_LocalPosition: {x: -5.6, y: 55.5, z: 63.2}
+  m_LocalRotation: {x: 0.44386268, y: 0.2802742, z: -0.5381778, w: 0.6593914}
+  m_LocalPosition: {x: 3.65, y: 32.06, z: 7.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 22.427, y: 170.634, z: 76.706}
+  m_LocalEulerAnglesHint: {x: 62.503, y: -13.545, z: -86.685}
 --- !u!114 &410087042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5906,8 +5906,6 @@ MonoBehaviour:
   balls: {fileID: 1277244132}
   duration: 1.2
   liveTime: 10
-  throwAction: {fileID: 6738727157213314558, guid: c348712bda248c246b8c49b3db54643f,
-    type: 3}
   pitcherEvent: {fileID: 452482661}
 --- !u!1001 &1625627904
 PrefabInstance:
@@ -7469,7 +7467,7 @@ Transform:
   m_GameObject: {fileID: 1789042467}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4416614, y: 8.635429, z: 27.39995}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

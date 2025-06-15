@@ -76,10 +76,13 @@ namespace BaseBallScene
 
         public void Miss(Ball ball)
         {
-            ball.state = Ball.RhythmState.Miss;
-            ball.SetImpulseValue(Vector3.zero);
-            ball.Impuse();
-            NegativeHit.Play();
+            if(ball.state != Ball.RhythmState.Miss)
+            {
+                ball.state = Ball.RhythmState.TimeMiss;
+                NegativeHit.Play();
+                ball.SetImpulseValue(Vector3.zero);
+                ball.Impuse();
+            }
             BatInteract.TriggerHapticsForSelector(0.2f, 0.1f);
         }
 

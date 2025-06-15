@@ -85,7 +85,11 @@ public class ObjectLauncher : MonoBehaviour
         // 발사된 오브젝트에 RhythmData 추가
         if (launchedObject != null)
         {
-            RhythmData rhythmData = launchedObject.AddComponent<RhythmData>();
+            if(!launchedObject.TryGetComponent<RhythmData>(out RhythmData rhythmData))
+            {
+                 rhythmData = launchedObject.AddComponent<RhythmData>(); 
+            }
+
             rhythmData.Initialize(beatTime);
             Debug.Log($"리듬 데이터 추가: 오브젝트 '{launchedObject.name}', 타겟시간 {beatTime}");
         }
