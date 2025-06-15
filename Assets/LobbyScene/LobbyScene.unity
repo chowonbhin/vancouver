@@ -5300,17 +5300,17 @@ PrefabInstance:
     - target: {fileID: 4991199586995370111, guid: 1e510f5ce873b8344811c59aca00113a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4991199586995370111, guid: 1e510f5ce873b8344811c59aca00113a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4991199586995370111, guid: 1e510f5ce873b8344811c59aca00113a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4991199586995370111, guid: 1e510f5ce873b8344811c59aca00113a,
         type: 3}
@@ -5730,8 +5730,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 5269381336812644702}
   - {fileID: 4392513920825862881}
+  - {fileID: 5269381336812644702}
   - {fileID: 1461418006}
   - {fileID: 934310321}
   - {fileID: 588606616}
