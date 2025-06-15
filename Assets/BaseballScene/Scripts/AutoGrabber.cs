@@ -3,6 +3,7 @@ using UnityEngine.XR;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
+using GLTF.Schema;
 
 namespace BaseBallScene
 {
@@ -11,11 +12,14 @@ namespace BaseBallScene
         public InputActionReference autoGrabAction;
         public XRBaseInteractor interactor;
         public XRGrabInteractable grabInteractable;
+        public Animator GrabAnime;
+
 
         private void Start()
         {
             autoGrabAction.action.performed += onAutoGrab;
         }
+
         void onAutoGrab(InputAction.CallbackContext ctx)
         {
             if (ctx.ReadValueAsButton())

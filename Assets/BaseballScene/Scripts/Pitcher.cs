@@ -15,11 +15,9 @@ namespace BaseBallScene
         public float duration = 1.5f;
         public float liveTime = 6f;
         private IObjectPool<Ball> objectPool;
-
         private float currentBeatTime = 0f;
-
         public InputActionReference throwAction;
-
+        public PitcherEvent pitcherEvent;
         void Start()
         {
             objectPool = new UnityEngine.Pool.ObjectPool<Ball>(createFunc: () =>
@@ -36,6 +34,7 @@ namespace BaseBallScene
                 tr.position = startPoint.position;
                 ball.gameObject.SetActive(true);
                 ball.FireEffect.On();
+                ball.IsHomRun = false;
                 ball.state = Ball.RhythmState.None;
                 if (ball.gameObject.GetComponent<RhythmData>() == null){
                     RhythmData rhythmData = ball.gameObject.AddComponent<RhythmData>();
@@ -47,13 +46,22 @@ namespace BaseBallScene
                     rhythmData.Edit(Time.time, currentBeatTime);
                     UnityEngine.Debug.Log($"리듬 데이터 수정: 오브젝트 '{ball.name}', 타겟시간 {currentBeatTime}");
                 }
+
+                float randomValue = Random.value;
+                if (randomValue < 0.2f)
+                {
+                    ball.PitcherE =  (Random.value < 0.5f)? Ball.SwingEvent.Right : Ball.SwingEvent.Left;
+                }
+                else
+                {
+                    ball.PitcherE = Ball.SwingEvent.None;
+                }
             },
             actionOnRelease: ball => ball.gameObject.SetActive(false),
             actionOnDestroy: ball => Destroy(ball.gameObject),
             collectionCheck: false,
             defaultCapacity: 50);
-            throwAction.action.performed += onThrow;
-
+            //throwAction.action.performed += onThrow;
         }
 
         private void onThrow(InputAction.CallbackContext ctx)
@@ -68,8 +76,9 @@ namespace BaseBallScene
         {
             currentBeatTime = beatTime;
             var ball = objectPool.Get();
+            pitcherEvent.OnEventImg(ball.PitcherE);
             StartCoroutine(ParabolicMovement(ball, duration));
-            StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
+            ball.ReturnCoroutine = StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
             if (ball.tag != "BaseBall")
             {
                 ball.tag = "BaseBall";
@@ -108,19 +117,32 @@ namespace BaseBallScene
                 ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
                 yield return null;
             }
-            if(ball.state != Ball.RhythmState.Hit)
+            if(ball.state == Ball.RhythmState.None)
             {
                 ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
                 Vector3 finalVelocity = GetVelocityAtTime(start, end, duration, timeElapsed);
                 ball.SetRBVelocity(finalVelocity);
             }
         }
+
+
+
+        public void ReturnBall(Ball ball)
+        {
+            ball.FireEffect.Off();
+            if(ball.ReturnCoroutine != null)
+            {
+                StopCoroutine(ball.ReturnCoroutine);
+            }
+            ball.ReturnCoroutine = null;
+            ball.gameObject.SetActive(false);
+            objectPool.Release(ball);
+        }
+
         private IEnumerator ReturnToPoolAfterTime(Ball ball, float time)
         {
             yield return new WaitForSeconds(time);
-            ball.FireEffect.Off();
-            ball.gameObject.SetActive(false);
-            objectPool.Release(ball);
+            ReturnBall(ball);
         }
 
         private void OnDestroy()

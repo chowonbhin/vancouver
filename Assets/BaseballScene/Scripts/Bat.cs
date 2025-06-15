@@ -1,6 +1,10 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.VFX;
 using UnityEngine.XR;
+using static BaseBallScene.Ball;
 
 
 namespace BaseBallScene
@@ -14,20 +18,52 @@ namespace BaseBallScene
         public AudioSource PositiveHit;
         public AudioSource NegativeHit;
 
+        public PitcherEvent pitcherEvent;
+        public Volume volume; 
+        private ChromaticAberration chromatic;
+
+        Coroutine chromaticEffect;
+
         VisualEffect hitVfx;
         BatInteractEvent BatInteract;
-
-
 
         private void Start()
         {
             BatInteract = GetComponent<BatInteractEvent>();
             hitVfx = hitVfxObj.GetComponentInChildren<VisualEffect>();
-            if(JudgmentSystem.Instance != null)
+
+            if (volume.profile.TryGet(out chromatic))
+            {
+                chromatic.intensity.value = 0f;
+            }
+
+            if (JudgmentSystem.Instance != null)
             {
                 JudgmentSystem.Instance.OnJudgment += Instance_OnJudgment;
             }
         }
+
+
+        bool CheckEvent(Ball ball)
+        {
+            bool BadEventSwing = false;
+            if (ball.PitcherE == Ball.SwingEvent.Left)
+            {
+                if (Vector3.Dot(ball.swingDir, Vector3.left) < 0f)
+                {
+                    BadEventSwing = true;
+                }
+            }
+            else if (ball.PitcherE == Ball.SwingEvent.Right)
+            {
+                if (Vector3.Dot(ball.swingDir, Vector3.right) < 0f)
+                {
+                    BadEventSwing = true;
+                }
+            }
+            return BadEventSwing;
+        }
+
 
         private void Instance_OnJudgment(GameObject obj, JudgmentResult arg2, float arg3)
         {
@@ -37,17 +73,62 @@ namespace BaseBallScene
                 if (arg2 == JudgmentResult.Good || arg2 == JudgmentResult.Perfect)
                 {
                     ball.state = Ball.RhythmState.Hit;
-                    ball.Impuse();
+                    bool BadEventSwing = CheckEvent(ball);
+                    if (ball.IsHomRun)
+                    {
+                        JudgmentSystem.Instance.UpdateScore(2);
+                        ball.SetImpulseForce(20);
+                        ball.FireEffect.OnSpecial();
+                        if(chromaticEffect!= null)
+                        {
+                            StopCoroutine(chromaticEffect);
+                            chromaticEffect = null;
+                        }
+                        chromaticEffect = StartCoroutine(ChromaticEffectCoroutine());
+                        BatInteract.TriggerHapticsForSelector(0.9f, 0.4f);
+                    }
+                    else
+                    {
+                        BatInteract.TriggerHapticsForSelector(0.5f, 0.2f);
+                    }
+                    if (BadEventSwing)
+                    {
+                        JudgmentSystem.Instance.UpdateScore(-5);
+                        pitcherEvent.StartBadBallCoroutine(ball);
+                    }
+                    else
+                    {
+                        ball.Impuse();
+                    }
                     hitVfxObj.transform.position = ball.gameObject.transform.position;
                     hitVfx.Play();
                     PositiveHit.Play();
                 }
                 else
                 {
+                    ball.SetImpulseValue(Vector3.zero);
+                    ball.Impuse();
                     NegativeHit.Play();
-                    ball.state = Ball.RhythmState.Miss;
+                    ball.state = Ball.RhythmState.Miss; 
+                    BatInteract.TriggerHapticsForSelector(0.2f, 0.1f);
                 }
             }
+        }
+
+        IEnumerator ChromaticEffectCoroutine()
+        {
+            chromatic.intensity.value = 0.2f;
+            float duration = 0.5f;
+            float elapsed = 0f;
+            float startValue = chromatic.intensity.value;
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                float t = elapsed / duration;
+                chromatic.intensity.value = Mathf.Lerp(startValue, 0f, t);
+                yield return null;
+            }
+            chromatic.intensity.value = 0f;
         }
 
         private void OnTriggerEnter(Collider other)
@@ -70,11 +151,17 @@ namespace BaseBallScene
                     Vector3 swingDir = Vector3.Cross(angularVelWorld, batDirection).normalized;
 
                     float swingStrength = angularVelWorld.magnitude * batDirection.magnitude;
-                    if (swingStrength > 10)
+                    ball.swingDir = swingDir;
+                    ball.swingStrength = swingStrength;
+                    if (swingStrength > 5)
                     {
                         Vector3 impulse = swingDir * swingStrength;
                         ball.SetImpulseValue(impulse);
-                        if(InteractionNotifier.Instance !=null)
+                        float upwardAngle = Vector3.Angle(swingDir, Vector3.up);
+                        bool isUpperSwing = upwardAngle >= 20f && upwardAngle <= 45f;
+                        bool isStrongEnough = swingStrength > 10f;
+                        ball.IsHomRun = isUpperSwing && isStrongEnough;
+                        if (InteractionNotifier.Instance !=null)
                         {
                             InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
                         }

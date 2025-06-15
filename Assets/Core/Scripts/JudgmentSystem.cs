@@ -151,6 +151,16 @@ public class JudgmentSystem : MonoBehaviour
     }
     
     // 점수 업데이트
+    public void UpdateScore(int score)
+    {
+        currentScore += score;
+        // UI 업데이트
+        if (judgmentUI != null)
+        {
+            judgmentUI.UpdateScore(currentScore);
+        }
+    }
+
     private void UpdateScore(JudgmentResult result)
     {
         switch (result)
@@ -158,21 +168,22 @@ public class JudgmentSystem : MonoBehaviour
             case JudgmentResult.Perfect:
                 currentScore += 2;
                 break;
-                
+
             case JudgmentResult.Good:
                 currentScore += 1;
                 break;
-                
-            // Bad는 점수 없음
+
+                // Bad는 점수 없음
         }
-        
+
         // UI 업데이트
         if (judgmentUI != null)
         {
             judgmentUI.UpdateScore(currentScore);
         }
     }
-    
+
+
     // 점수 리셋
     public void ResetScore()
     {
