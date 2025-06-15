@@ -47,9 +47,12 @@ namespace BaseBallScene
         bool CheckEvent(Ball ball)
         {
             bool BadEventSwing = false;
+            bool isLeftSwing = ball.swingDir.x < 0f;
+            bool isRightSwing = ball.swingDir.x > 0f;
+
             if (ball.PitcherE == Ball.SwingEvent.Left)
             {
-                if (Vector3.Dot(ball.swingDir, Vector3.left) < 0f)
+                if (isRightSwing)
                 {
                     BadEventSwing = true;
 
@@ -57,7 +60,7 @@ namespace BaseBallScene
 
                 }
             }
-            else if (ball.PitcherE == Ball.SwingEvent.Right)
+            else if (isLeftSwing)
             {
                 if (Vector3.Dot(ball.swingDir, Vector3.right) < 0f)
                 {
