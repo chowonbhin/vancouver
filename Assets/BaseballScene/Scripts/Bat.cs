@@ -14,6 +14,7 @@ namespace BaseBallScene
         public Transform batTip;
         public Transform batHandle;
 
+        public TMPro.TextMeshProUGUI PitcherInfo;
         public GameObject hitVfxObj;
         public AudioSource PositiveHit;
         public AudioSource NegativeHit;
@@ -97,6 +98,7 @@ namespace BaseBallScene
 
             if (BadEventSwing)
             {
+                PitcherInfo.text = "BadSwing";
                 JudgmentSystem.Instance.UpdateScore(-5, "PitcherEvent : BadSwing");
                 pitcherEvent.StartBadBallCoroutine(ball);
             }
@@ -111,6 +113,7 @@ namespace BaseBallScene
 
         void HomeRun(Ball ball)
         {
+            PitcherInfo.text = "HomeRun!";
             JudgmentSystem.Instance.UpdateScore(2, "HomeRun Swing");
             ball.SetImpulseForce(20);
             ball.FireEffect.OnSpecial();
@@ -128,6 +131,7 @@ namespace BaseBallScene
             Ball ball = obj.GetComponent<Ball>();
             if(ball != null)
             {
+                PitcherInfo.text = "";
                 if (arg2 == JudgmentResult.Good || arg2 == JudgmentResult.Perfect)
                 {
                     Hit(ball);
