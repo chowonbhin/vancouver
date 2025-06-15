@@ -151,8 +151,13 @@ public class JudgmentSystem : MonoBehaviour
     }
     
     // 점수 업데이트
-    public void UpdateScore(int score)
+    public void UpdateScore(int score , string debugLog = null)
     {
+        if (showDebugLogs)
+        {
+            Debug.Log($"{debugLog}, CurrentScore : {currentScore} + Score : {score} ");
+        }
+
         currentScore += score;
         // UI 업데이트
         if (judgmentUI != null)
