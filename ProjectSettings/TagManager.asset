@@ -17,6 +17,7 @@ TagManager:
   - PingpongBall
   - processed
   - BaseBall Bat
+  - bonusTarget
   layers:
   - Default
   - TransparentFX
