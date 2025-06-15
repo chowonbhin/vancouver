@@ -3,6 +3,7 @@ using UnityEngine.Pool;
 using System.Collections;
 using UnityEngine.InputSystem;
 using System.Diagnostics;
+using Unity.VisualScripting;
 
 namespace BaseBallScene
 {
@@ -11,6 +12,7 @@ namespace BaseBallScene
         public Transform startPoint;
         public Transform endPoint;
         public Ball ballPref;
+        public Bat bat;
         public Transform balls;
         public float duration = 1.5f;
         public float liveTime = 6f;
@@ -61,6 +63,9 @@ namespace BaseBallScene
             actionOnDestroy: ball => Destroy(ball.gameObject),
             collectionCheck: false,
             defaultCapacity: 50);
+
+
+            //Debug
             //throwAction.action.performed += onThrow;
         }
 
@@ -77,7 +82,7 @@ namespace BaseBallScene
             currentBeatTime = beatTime;
             var ball = objectPool.Get();
             pitcherEvent.OnEventImg(ball.PitcherE);
-            StartCoroutine(ParabolicMovement(ball, duration));
+            ball.ParabolicCoroutine =StartCoroutine(ParabolicMovement(ball, duration));
             ball.ReturnCoroutine = StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
             if (ball.tag != "BaseBall")
             {
@@ -117,11 +122,24 @@ namespace BaseBallScene
                 ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
                 yield return null;
             }
-            if(ball.state == Ball.RhythmState.None)
+            if (ball.state == Ball.RhythmState.None)
             {
                 ball.transform.position = GetPositionAtTime(start, end, duration, timeElapsed);
                 Vector3 finalVelocity = GetVelocityAtTime(start, end, duration, timeElapsed);
                 ball.SetRBVelocity(finalVelocity);
+            }
+
+            while (timeElapsed < duration+1.5f)
+            {
+                timeElapsed += Time.deltaTime;
+            }
+
+            if (ball.state == Ball.RhythmState.None)
+            {
+                if (InteractionNotifier.Instance != null)
+                {
+                    InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
+                }
             }
         }
 
@@ -133,8 +151,14 @@ namespace BaseBallScene
             if(ball.ReturnCoroutine != null)
             {
                 StopCoroutine(ball.ReturnCoroutine);
+                ball.ReturnCoroutine = null;
             }
-            ball.ReturnCoroutine = null;
+            if(ball.ParabolicCoroutine != null)
+            {
+                StopCoroutine(ball.ParabolicCoroutine);
+                ball.ParabolicCoroutine = null;
+            }
+
             ball.gameObject.SetActive(false);
             objectPool.Release(ball);
         }

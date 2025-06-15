@@ -14,6 +14,7 @@ namespace BaseBallScene
         public Transform batTip;
         public Transform batHandle;
 
+        public TMPro.TextMeshProUGUI PitcherInfo;
         public GameObject hitVfxObj;
         public AudioSource PositiveHit;
         public AudioSource NegativeHit;
@@ -26,7 +27,6 @@ namespace BaseBallScene
 
         VisualEffect hitVfx;
         BatInteractEvent BatInteract;
-
         private void Start()
         {
             BatInteract = GetComponent<BatInteractEvent>();
@@ -52,6 +52,9 @@ namespace BaseBallScene
                 if (Vector3.Dot(ball.swingDir, Vector3.left) < 0f)
                 {
                     BadEventSwing = true;
+
+                    Debug.Log("PitcherEvent : Left Swing EVENT, But BadSwing...");
+
                 }
             }
             else if (ball.PitcherE == Ball.SwingEvent.Right)
@@ -59,65 +62,90 @@ namespace BaseBallScene
                 if (Vector3.Dot(ball.swingDir, Vector3.right) < 0f)
                 {
                     BadEventSwing = true;
+                    Debug.Log("PitcherEvent : Right Swing EVENT, But BadSwing...");
                 }
             }
+
+            if(!BadEventSwing)
+            {
+                Debug.Log("PitcherEvent : Performed Swing Event Very Well!");
+            }
+
             return BadEventSwing;
         }
 
+        public void Miss(Ball ball)
+        {
+            ball.state = Ball.RhythmState.Miss;
+            ball.SetImpulseValue(Vector3.zero);
+            ball.Impuse();
+            NegativeHit.Play();
+            BatInteract.TriggerHapticsForSelector(0.2f, 0.1f);
+        }
+
+        void Hit(Ball ball)
+        {
+            ball.state = Ball.RhythmState.Hit;
+            bool BadEventSwing = CheckEvent(ball);
+            if (ball.IsHomRun)
+            {
+                HomeRun(ball);
+            }
+            else
+            {
+                BatInteract.TriggerHapticsForSelector(0.5f, 0.2f);
+            }
+
+            if (BadEventSwing)
+            {
+                PitcherInfo.text = "BadSwing";
+                JudgmentSystem.Instance.UpdateScore(-5, "PitcherEvent : BadSwing");
+                pitcherEvent.StartBadBallCoroutine(ball);
+            }
+            else
+            {
+                ball.Impuse();
+            }
+            hitVfxObj.transform.position = ball.gameObject.transform.position;
+            hitVfx.Play();
+            PositiveHit.Play();
+        }
+
+        void HomeRun(Ball ball)
+        {
+            PitcherInfo.text = "HomeRun!";
+            JudgmentSystem.Instance.UpdateScore(2, "HomeRun Swing");
+            ball.SetImpulseForce(20);
+            ball.FireEffect.OnSpecial();
+            if (chromaticEffect != null)
+            {
+                StopCoroutine(chromaticEffect);
+                chromaticEffect = null;
+            }
+            chromaticEffect = StartCoroutine(ChromaticEffectCoroutine());
+            BatInteract.TriggerHapticsForSelector(0.9f, 0.4f);
+        }
 
         private void Instance_OnJudgment(GameObject obj, JudgmentResult arg2, float arg3)
         {
             Ball ball = obj.GetComponent<Ball>();
             if(ball != null)
             {
+                PitcherInfo.text = "";
                 if (arg2 == JudgmentResult.Good || arg2 == JudgmentResult.Perfect)
                 {
-                    ball.state = Ball.RhythmState.Hit;
-                    bool BadEventSwing = CheckEvent(ball);
-                    if (ball.IsHomRun)
-                    {
-                        JudgmentSystem.Instance.UpdateScore(2);
-                        ball.SetImpulseForce(20);
-                        ball.FireEffect.OnSpecial();
-                        if(chromaticEffect!= null)
-                        {
-                            StopCoroutine(chromaticEffect);
-                            chromaticEffect = null;
-                        }
-                        chromaticEffect = StartCoroutine(ChromaticEffectCoroutine());
-                        BatInteract.TriggerHapticsForSelector(0.9f, 0.4f);
-                    }
-                    else
-                    {
-                        BatInteract.TriggerHapticsForSelector(0.5f, 0.2f);
-                    }
-                    if (BadEventSwing)
-                    {
-                        JudgmentSystem.Instance.UpdateScore(-5);
-                        pitcherEvent.StartBadBallCoroutine(ball);
-                    }
-                    else
-                    {
-                        ball.Impuse();
-                    }
-                    hitVfxObj.transform.position = ball.gameObject.transform.position;
-                    hitVfx.Play();
-                    PositiveHit.Play();
+                    Hit(ball);
                 }
                 else
                 {
-                    ball.SetImpulseValue(Vector3.zero);
-                    ball.Impuse();
-                    NegativeHit.Play();
-                    ball.state = Ball.RhythmState.Miss; 
-                    BatInteract.TriggerHapticsForSelector(0.2f, 0.1f);
+                    Miss(ball);
                 }
             }
         }
 
         IEnumerator ChromaticEffectCoroutine()
         {
-            chromatic.intensity.value = 0.2f;
+            chromatic.intensity.value = 0.25f;
             float duration = 0.5f;
             float elapsed = 0f;
             float startValue = chromatic.intensity.value;

@@ -18,6 +18,7 @@ namespace BaseBallScene
             Left,
             Right
         }
+        public Coroutine ParabolicCoroutine;
         public Coroutine ReturnCoroutine;
         public FireEffect FireEffect;
         public RhythmState state;
