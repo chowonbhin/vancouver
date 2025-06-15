@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -47,33 +48,29 @@ namespace BaseBallScene
         bool CheckEvent(Ball ball)
         {
             bool BadEventSwing = false;
-            bool isLeftSwing = ball.swingDir.x < 0f;
-            bool isRightSwing = ball.swingDir.x > 0f;
+            bool isLeftSwing = ball.swingDir.x > 0f;
+            bool isRightSwing = ball.swingDir.x < 0f;
 
-            if (ball.PitcherE == Ball.SwingEvent.Left)
+            if(ball.PitcherE == Ball.SwingEvent.None)
+            {
+                return false;
+            }
+            else if (ball.PitcherE == Ball.SwingEvent.Left)
             {
                 if (isRightSwing)
                 {
                     BadEventSwing = true;
-
                     Debug.Log("PitcherEvent : Left Swing EVENT, But BadSwing...");
-
                 }
             }
-            else if (isLeftSwing)
+            else if (ball.PitcherE == Ball.SwingEvent.Right)
             {
-                if (Vector3.Dot(ball.swingDir, Vector3.right) < 0f)
+                if (isLeftSwing)
                 {
                     BadEventSwing = true;
                     Debug.Log("PitcherEvent : Right Swing EVENT, But BadSwing...");
                 }
             }
-
-            if(!BadEventSwing)
-            {
-                Debug.Log("PitcherEvent : Performed Swing Event Very Well!");
-            }
-
             return BadEventSwing;
         }
 
@@ -120,7 +117,7 @@ namespace BaseBallScene
         void HomeRun(Ball ball)
         {
             PitcherInfo.text = "HomeRun!";
-            JudgmentSystem.Instance.UpdateScore(2, "HomeRun Swing");
+            JudgmentSystem.Instance.UpdateScore(1, "HomeRun Swing");
             ball.SetImpulseForce(20);
             ball.FireEffect.OnSpecial();
             if (chromaticEffect != null)
@@ -192,10 +189,10 @@ namespace BaseBallScene
                         Vector3 impulse = swingDir * swingStrength;
                         ball.SetImpulseValue(impulse);
                         float upwardAngle = Vector3.Angle(swingDir, Vector3.up);
-                        bool isUpperSwing = upwardAngle >= 20f && upwardAngle <= 45f;
+                        bool isUpperSwing = upwardAngle >= 30f && upwardAngle <= 50f;
                         bool isStrongEnough = swingStrength > 10f;
                         ball.IsHomRun = isUpperSwing && isStrongEnough;
-                        if (InteractionNotifier.Instance !=null)
+                        if (InteractionNotifier.Instance != null)
                         {
                             InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
                         }

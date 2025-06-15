@@ -34,7 +34,6 @@ namespace BaseBallScene
                 ball.FireEffect.On();
                 ball.IsHomRun = false;
                 ball.state = Ball.RhythmState.None;
-
                 float randomValue = Random.value;
                 if (randomValue < 0.2f)
                 {
@@ -54,10 +53,9 @@ namespace BaseBallScene
 
         public GameObject ThrowBall(float duration, float beatTime)
         {
-            // currentBeatTime = beatTime;
             var ball = objectPool.Get();
             pitcherEvent.OnEventImg(ball.PitcherE);
-            ball.ParabolicCoroutine =StartCoroutine(ParabolicMovement(ball, duration, beatTime));
+            ball.ParabolicCoroutine = StartCoroutine(ParabolicMovement(ball, duration, beatTime));
             ball.ReturnCoroutine = StartCoroutine(ReturnToPoolAfterTime(ball, liveTime));
             if (ball.tag != "BaseBall")
             {
@@ -135,7 +133,11 @@ namespace BaseBallScene
                 StopCoroutine(ball.ParabolicCoroutine);
                 ball.ParabolicCoroutine = null;
             }
-
+            if(ball.BadBallCoroutine != null)
+            {
+                StopCoroutine(ball.BadBallCoroutine);
+                ball.BadBallCoroutine = null;
+            }
             ball.gameObject.SetActive(false);
             objectPool.Release(ball);
         }
