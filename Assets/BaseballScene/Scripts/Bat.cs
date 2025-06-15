@@ -105,7 +105,7 @@ namespace BaseBallScene
             if (BadEventSwing)
             {
                 PitcherInfo.text = "BadSwing";
-                JudgmentSystem.Instance.UpdateScore(-5, "PitcherEvent : BadSwing");
+                JudgmentSystem.Instance.UpdateScore(-1, "PitcherEvent : BadSwing");
                 pitcherEvent.StartBadBallCoroutine(ball);
             }
             else

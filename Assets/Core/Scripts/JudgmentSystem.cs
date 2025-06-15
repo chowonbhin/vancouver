@@ -159,6 +159,8 @@ public class JudgmentSystem : MonoBehaviour
         }
 
         currentScore += score;
+        currentScore = Math.Max(0, currentScore);
+
         // UI 업데이트
         if (judgmentUI != null)
         {
@@ -193,7 +195,7 @@ public class JudgmentSystem : MonoBehaviour
     public void ResetScore()
     {
         currentScore = 0;
-        
+        currentScore = Math.Max(0, currentScore);
         if (judgmentUI != null)
         {
             judgmentUI.UpdateScore(currentScore);
