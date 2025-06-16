@@ -1039,6 +1039,55 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   m_ButtonPressPoint: 0.5
+--- !u!1 &367486461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 367486463}
+  - component: {fileID: 367486462}
+  m_Layer: 0
+  m_Name: SceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &367486462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367486461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ff89e195e4990949895609aee58014e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  beatMapJson: {fileID: 4900000, guid: c69d9088b4b21654fa76e2c714308a3c, type: 3}
+  musicClip: {fileID: 8300000, guid: ae0b28ffba4aff84cbaf33454f36c536, type: 3}
+  leadTime: 0.5
+  objectLauncher: {fileID: 411130632}
+  judgmentUI: {fileID: 2111110911}
+--- !u!4 &367486463
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367486461}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.587153, y: 1.4163526, z: 28.961645}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &411130629
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +1098,7 @@ GameObject:
   m_Component:
   - component: {fileID: 411130631}
   - component: {fileID: 411130630}
+  - component: {fileID: 411130632}
   m_Layer: 0
   m_Name: BallSpawner
   m_TagString: Untagged
@@ -1094,6 +1144,20 @@ Transform:
   - {fileID: 1262123459}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &411130632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411130629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b85dd294d15243448c331a6a6130f53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  launchMethodName: SpawnBall
+  objectTravelTime: 0.5
 --- !u!1 &415854725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2535,7 +2599,7 @@ Transform:
   m_GameObject: {fileID: 1262123458}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3194,57 +3258,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &1995416816
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1995416818}
-  - component: {fileID: 1995416817}
-  m_Layer: 0
-  m_Name: ScoreSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1995416817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995416816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de0274801404a9d4998db320f4b6873e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  judgmentPanel: {fileID: 188677506}
-  judgmentText: {fileID: 8192348}
-  displayDuration: 0.75
-  perfectColor: {r: 0, g: 1, b: 0, a: 1}
-  goodColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  badColor: {r: 1, g: 0, b: 0, a: 1}
-  scoreText: {fileID: 893344669}
---- !u!4 &1995416818
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995416816}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.40692857, y: -0.12535608, z: 3.5881886}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2083692137
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,6 +3518,7 @@ GameObject:
   - component: {fileID: 2111110909}
   - component: {fileID: 2111110908}
   - component: {fileID: 2111110907}
+  - component: {fileID: 2111110911}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3583,7 +3597,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2111110906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.499}
+  m_LocalPosition: {x: 0, y: 0, z: 0.927}
   m_LocalScale: {x: 0.001, y: 0.001, z: 0.001}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3593,9 +3607,28 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -0.164, y: -0.265}
+  m_AnchoredPosition: {x: -0.164, y: -0.138}
   m_SizeDelta: {x: 1171, y: 649}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2111110911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111110906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd09228c20e791945be4816f729d23aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  judgmentPanel: {fileID: 188677506}
+  judgmentText: {fileID: 8192348}
+  displayDuration: 0.75
+  perfectColor: {r: 0, g: 1, b: 0, a: 1}
+  goodColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  badColor: {r: 1, g: 0, b: 0, a: 1}
+  scoreText: {fileID: 893344669}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
