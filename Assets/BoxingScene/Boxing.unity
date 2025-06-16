@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   launchMethodName: SpawnBall
-  objectTravelTime: 1
+  objectTravelTime: 0.5
 --- !u!1 &415854725
 GameObject:
   m_ObjectHideFlags: 0
