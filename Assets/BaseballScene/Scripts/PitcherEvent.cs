@@ -40,7 +40,7 @@ public class PitcherEvent : MonoBehaviour
 
     public void StartBadBallCoroutine(Ball ball)
     {
-        StartCoroutine(BadBallCoroutine(ball));
+        ball.BadBallCoroutine = StartCoroutine(BadBallCoroutine(ball));
     }
     IEnumerator BadBallCoroutine(Ball ball)
     {
