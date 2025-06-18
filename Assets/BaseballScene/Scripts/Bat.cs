@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -48,41 +47,39 @@ namespace BaseBallScene
         bool CheckEvent(Ball ball)
         {
             bool BadEventSwing = false;
-            bool isLeftSwing = ball.swingDir.x > 0f;
-            bool isRightSwing = ball.swingDir.x < 0f;
-
-            if(ball.PitcherE == Ball.SwingEvent.None)
+            if (ball.PitcherE == Ball.SwingEvent.Left)
             {
-                return false;
-            }
-            else if (ball.PitcherE == Ball.SwingEvent.Left)
-            {
-                if (isRightSwing)
+                if (Vector3.Dot(ball.swingDir, Vector3.left) < 0f)
                 {
                     BadEventSwing = true;
+
                     Debug.Log("PitcherEvent : Left Swing EVENT, But BadSwing...");
+
                 }
             }
             else if (ball.PitcherE == Ball.SwingEvent.Right)
             {
-                if (isLeftSwing)
+                if (Vector3.Dot(ball.swingDir, Vector3.right) < 0f)
                 {
                     BadEventSwing = true;
                     Debug.Log("PitcherEvent : Right Swing EVENT, But BadSwing...");
                 }
             }
+
+            if(!BadEventSwing)
+            {
+                Debug.Log("PitcherEvent : Performed Swing Event Very Well!");
+            }
+
             return BadEventSwing;
         }
 
         public void Miss(Ball ball)
         {
-            if(ball.state != Ball.RhythmState.Miss)
-            {
-                ball.state = Ball.RhythmState.TimeMiss;
-                NegativeHit.Play();
-                ball.SetImpulseValue(Vector3.zero);
-                ball.Impuse();
-            }
+            ball.state = Ball.RhythmState.Miss;
+            ball.SetImpulseValue(Vector3.zero);
+            ball.Impuse();
+            NegativeHit.Play();
             BatInteract.TriggerHapticsForSelector(0.2f, 0.1f);
         }
 
@@ -102,7 +99,7 @@ namespace BaseBallScene
             if (BadEventSwing)
             {
                 PitcherInfo.text = "BadSwing";
-                JudgmentSystem.Instance.UpdateScore(-1, "PitcherEvent : BadSwing");
+                JudgmentSystem.Instance.UpdateScore(-5, "PitcherEvent : BadSwing");
                 pitcherEvent.StartBadBallCoroutine(ball);
             }
             else
@@ -117,7 +114,7 @@ namespace BaseBallScene
         void HomeRun(Ball ball)
         {
             PitcherInfo.text = "HomeRun!";
-            JudgmentSystem.Instance.UpdateScore(1, "HomeRun Swing");
+            JudgmentSystem.Instance.UpdateScore(2, "HomeRun Swing");
             ball.SetImpulseForce(20);
             ball.FireEffect.OnSpecial();
             if (chromaticEffect != null)
@@ -189,10 +186,10 @@ namespace BaseBallScene
                         Vector3 impulse = swingDir * swingStrength;
                         ball.SetImpulseValue(impulse);
                         float upwardAngle = Vector3.Angle(swingDir, Vector3.up);
-                        bool isUpperSwing = upwardAngle >= 30f && upwardAngle <= 50f;
+                        bool isUpperSwing = upwardAngle >= 20f && upwardAngle <= 45f;
                         bool isStrongEnough = swingStrength > 10f;
                         ball.IsHomRun = isUpperSwing && isStrongEnough;
-                        if (InteractionNotifier.Instance != null)
+                        if (InteractionNotifier.Instance !=null)
                         {
                             InteractionNotifier.Instance.NotifyInteraction(ball.gameObject);
                         }
