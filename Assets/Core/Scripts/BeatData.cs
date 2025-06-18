@@ -7,7 +7,7 @@ public class BeatData
 {
     public string songName;
     public float bpm;
-    public List<Tuple<float, bool>> beatTimes = new List<Tuple<float, bool>>();
+    public List<float> beatTimes = new List<float>();
     
     // 미디 데이터에서 비트 시간 추출
     public static BeatData FromMidiJson(TextAsset jsonFile)
@@ -41,12 +41,6 @@ public class BeatData
                     beatTrack = track;
                     break;
                 }
-
-                if (track.name == "DRUM_BASS" || track.id == 1)
-                {
-                    beatTrack = track;
-                    break;
-                }
             }
             
             // 비트 시간 추출
@@ -56,7 +50,7 @@ public class BeatData
                 {
                     foreach (var note in beatTrack.notes)
                     {
-                        beatData.beatTimes.Add(new Tuple<float, bool>(note.time, false));
+                        beatData.beatTimes.Add(note.time);
                     }
                 }
 
@@ -65,21 +59,7 @@ public class BeatData
                     foreach (var note in beatTrack.notes)
                     {
                         if(note.name == "F#2"){
-                            beatData.beatTimes.Add(new Tuple<float, bool>(note.time, false));
-                        }
-                    }
-                }
-
-                if(beatTrack.name == "DRUM_BASS" || beatTrack.id == 1)
-                {
-                    foreach (var note in beatTrack.notes)
-                    {
-                        if(note.name == "D3"){
-                            beatData.beatTimes.Add(new Tuple<float, bool>(note.time, true));
-                        }
-
-                        if(note.name == "A2"){
-                            beatData.beatTimes.Add(new Tuple<float, bool>(note.time, false));
+                            beatData.beatTimes.Add(note.time);
                         }
                     }
                 }

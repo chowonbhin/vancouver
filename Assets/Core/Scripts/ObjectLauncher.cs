@@ -21,7 +21,7 @@ public class ObjectLauncher : MonoBehaviour
     }
     
     // 리듬 매니저가 호출하는 메서드
-    public GameObject Launch(float beatTime, bool isBarrel = false)
+    public GameObject Launch(float beatTime)
     {
         Debug.Log($"ObjectLauncher.Launch({beatTime}) 호출됨");
         
@@ -56,13 +56,8 @@ public class ObjectLauncher : MonoBehaviour
                 }
                 else if (parameters.Length == 2)
                 {
-                    result = method.Invoke(launcher, new object[] { objectTravelTime, beatTime});
-                    Debug.Log($"'{launchMethodName}' 메서드를 파라미터 {objectTravelTime}, {beatTime}로 호출 성공");
-                }
-                else if (parameters.Length == 3)
-                {
-                    result = method.Invoke(launcher, new object[] { objectTravelTime, beatTime, isBarrel});
-                    Debug.Log($"'{launchMethodName}' 메서드를 파라미터 {objectTravelTime}, {beatTime}, {isBarrel}로 호출 성공");
+                    result = method.Invoke(launcher, new object[] { objectTravelTime, beatTime });
+                    Debug.Log($"'{launchMethodName}' 메서드를 파라미터 {objectTravelTime} {beatTime} 으로 호출 성공");
                 }
                 
                 // 반환값이 GameObject인 경우 반환
@@ -70,12 +65,12 @@ public class ObjectLauncher : MonoBehaviour
                 {
                     launchedObject = result as GameObject;
                 }
-                /*else
+                else
                 {
                     // 발사 메서드가 GameObject를 반환하지 않는 경우
                     // 발사 추적 기능 사용
                     launchedObject = TrackLastLaunchedObject();
-                }*/
+                }
             }
             catch (System.Exception e)
             {
@@ -90,8 +85,12 @@ public class ObjectLauncher : MonoBehaviour
         // 발사된 오브젝트에 RhythmData 추가
         if (launchedObject != null)
         {
-            RhythmData rhythmData = launchedObject.AddComponent<RhythmData>();
-            rhythmData.Initialize(beatTime, isBarrel);
+            if(!launchedObject.TryGetComponent<RhythmData>(out RhythmData rhythmData))
+            {
+                 rhythmData = launchedObject.AddComponent<RhythmData>(); 
+            }
+
+            rhythmData.Initialize(beatTime);
             Debug.Log($"리듬 데이터 추가: 오브젝트 '{launchedObject.name}', 타겟시간 {beatTime}");
         }
         
@@ -99,7 +98,7 @@ public class ObjectLauncher : MonoBehaviour
     }
 
     // 최근 발사된 오브젝트 추적
-    /*private GameObject TrackLastLaunchedObject()
+    private GameObject TrackLastLaunchedObject()
     {
         // 적절한 태그로 검색 (씬에 맞게 조정 필요)
         string[] possibleTags = { "BaseBall", "PingpongBall", "PunchBag", "Bomb" };
@@ -117,7 +116,7 @@ public class ObjectLauncher : MonoBehaviour
         }
         
         return null;
-    }*/
+    }
 
     
 }

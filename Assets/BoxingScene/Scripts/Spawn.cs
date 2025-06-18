@@ -12,8 +12,6 @@ public class Spawn : MonoBehaviour
     public Transform pointB;
     private float distance;
 
-    private float currentBeatTime = 0f;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -31,12 +29,12 @@ public class Spawn : MonoBehaviour
         
     }
 
-    public GameObject SpawnBall(float travelTime = 5f, float beatTime = 0f, bool barrel = false)
-    {
-        Debug.Log($"CreateBall 호출됨: time={travelTime}, beatTime={beatTime}, barrel={barrel}");
-        //float defTime = distance / 0.5f;
+    
 
-        currentBeatTime = beatTime;
+    public void SpawnBall(float time = 5f, bool barrel = false)
+    {
+
+        //float defTime = distance / 0.5f;
 
         //Debug.Log("time: " + defTime);
         GameObject prefabToSpawn = barrelPrefab;
@@ -47,12 +45,8 @@ public class Spawn : MonoBehaviour
         
 
         GameObject newBall = Instantiate(prefabToSpawn, spawnPoint.position, spawnPoint.rotation);
-        RhythmData rhythmData = newBall.AddComponent<RhythmData>();
-        rhythmData.Initialize(currentBeatTime, barrel);
-        Debug.Log($"리듬 데이터 추가: 오브젝트 '{newBall.name}', 타겟시간 {currentBeatTime}");
         var slowGravity = newBall.AddComponent<SlowGravity>();
-        slowGravity.gravityForce = 2f*distance/(travelTime*travelTime); 
-
+        slowGravity.gravityForce = distance/time; 
         Destroy(newBall.gameObject, 15f);
 
         //adding bonus target
@@ -83,7 +77,6 @@ public class Spawn : MonoBehaviour
             }
         }
 
-        return newBall;
     }
 
 }

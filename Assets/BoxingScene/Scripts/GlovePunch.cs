@@ -50,16 +50,6 @@ public class GlovePunchXR : MonoBehaviour
                 rb.AddForce(forceDirection * forceStrength, ForceMode.Impulse);
             }
 
-            if(other.gameObject.GetComponent<RhythmData>() != null)
-            {
-                if (InteractionNotifier.Instance != null)
-                {
-                    InteractionNotifier.Instance.NotifyInteraction(other.gameObject);
-                }
-            }
-
-            other.gameObject.tag = "processed";
-
             Destroy(other.gameObject, 1.5f);
 
         }
@@ -91,16 +81,6 @@ public class GlovePunchXR : MonoBehaviour
                 Debug.LogWarning(" BombSpawn not found in Barrel.");
             }
 
-            if(other.gameObject.GetComponent<RhythmData>() != null)
-            {
-                if (InteractionNotifier.Instance != null)
-                {
-                    InteractionNotifier.Instance.NotifyInteraction(other.gameObject);
-                }
-            }
-
-            other.gameObject.tag = "processed";
-
             SpawnFracturedObject(other.gameObject);
 
 
@@ -128,16 +108,6 @@ public class GlovePunchXR : MonoBehaviour
                 float forceStrength = currentVelocity.magnitude * 1.1f;
                 rb.AddForce(forceDirection * forceStrength, ForceMode.Impulse);
             }
-
-            if(other.gameObject.GetComponent<RhythmData>() != null)
-            {
-                if (InteractionNotifier.Instance != null)
-                {
-                    InteractionNotifier.Instance.NotifyInteraction(other.gameObject);
-                }
-            }
-
-            other.gameObject.tag = "processed";
 
             Destroy(root.gameObject, 1.5f);
         }
