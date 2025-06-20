@@ -1,4 +1,26 @@
 # vancouver - Rhythm Arena
+## 프로젝트 개요
+1. 프로젝트 명 : Rhythm Arena
+2. 개발 기간 : 3개월
+3. 주요 목적 및 개발 배경
+2008년 발매된 "Rhythm Heaven"게임을 베이스로 함
+해당 게임의 스포츠 테마와 VR 환경의 물리 엔진을 접목시킨 Rhythm Arena를 개발
+
+## 개발 동기 및 기획 의도
+1. 기획 배경 및 문제 인식
+기존 음악 게임의 박자감과 스포츠 게임의 액션을 접목시킨 게임의 부재
+리듬 세상의 스포츠 테마는 행동이 제한되어 있음
+따라서 자유롭게 인터렉션 할 수 있는 스포츠 리듬게임 제작 필요
+2. 주요 콘셉트 및 차별점
+물리 엔진을 이용한 점수 판정 시스템
+
+## 기능 요약
+- 멀티 스포츠 기반 리듬 게임 시스템
+- 물리 기반 채점 시스템
+- Window 기반 판정 시스템
+- 로비 시스템
+- 음악 연동 모듈
+
 
 ## 팀원 소개
 - 팀장 : 조원빈
@@ -32,4 +54,104 @@ Build 버튼을 눌러 .apk 파일 생성
 
 ## 전체 플로우 차트
 
+```mermaid
+flowchart TD
+    A[게임 시작] --> B[싱글톤 초기화<br/>RhythmGameManager, RhythmManager, JudgmentSystem]
+    
+    B --> C[씬 로드 & SceneSetup<br/>MIDI 파싱, UI 연결]
+    
+    C --> D[카운트다운 후 게임 시작]
+    
+    D --> E[리듬 기반 오브젝트 발사<br/>beatTime - leadTime ≤ currentTime]
+    
+    E --> F{씬별 발사}
+    F -->|Baseball| G[포물선 투구]
+    F -->|Boxing| H[중력 낙하]
+    F -->|TableTennis| I[베지어 곡선]
+    
+    G --> J[RhythmData 부착]
+    H --> J
+    I --> J
+    
+    J --> K[플레이어 상호작용]
+    
+    K --> L[InteractionNotifier → JudgmentSystem<br/>타이밍 차이 계산]
+    
+    L --> M{판정}
+    M --> N[Perfect: 2점]
+    M --> O[Good: 1점]
+    M --> P[Bad/Miss: 0점]
+    
+    N --> Q[UI 업데이트 & 오브젝트 정리]
+    O --> Q
+    P --> Q
+    
+    Q --> R{더 처리할 비트?}
+    R -->|Yes| E
+    R -->|No| S[게임 종료 & 로비 복귀]
+    
+    %% 스타일링
+    style A fill:#e1f5fe
+    style B fill:#e8f5e8
+    style C fill:#fff3e0
+    style F fill:#f3e5f5
+    style L fill:#ffebee
+    style M fill:#fff8e1
+    style S fill:#e0f2f1
 
+```
+
+
+
+## License
+### Lobby Scene
+Code Reference - Smooth Scene Fade Transition in VR (https://youtu.be/JCyJ26cIM0Y?si=ZzKVSbSo8bEl8rDl)
+Assets
+
+-Enviroment- 
+Outline - “Quick Outline” by Chris Nolet (https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488)
+Room - “Andy’s room” by Alberto (https://skfb.ly/6vAXn) License: CC Attribution
+Trophy - “Championship Trophy” by IanaM (https://skfb.ly/pwUXx) License :  CC Attribution
+
+### Table Tennis
+Code Reference - None
+Assets 
+
+–Environment–
+TableTennis - "Pingpong/Table tennis Lowpoly" (https://skfb.ly/oILCQ) by marvirab is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+Background - "Modular Gym" (https://skfb.ly/6VTUu) by Kristen Brown is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+Pitcher Machine - "Loaded Pitching Machine" (https://skfb.ly/oHFxR) by Alex is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/)
+
+### Baseball
+Code Reference - None
+Assets
+
+–Environment–
+Ballpark
+"Elevated Bleacher" (https://skfb.ly/oIoZZ) by josé serrão is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Stadium Light" (https://skfb.ly/6TXZu) by thundermind is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Baseball Field" (https://skfb.ly/6ZtHM) by Tiko is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+Bat & Ball
+"Worn Baseball Ball" (https://skfb.ly/68rQq) by Alex Bes is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Baseball Bat – Pack 01" (https://skfb.ly/69JZD) by CGunwale is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+Pitcher Machine
+https://sketchfab.com/3d-models/loaded-pitching-machine-11e8430608ae4a6b9c84575607660d2d {https://skfb.ly/oHFxR}
+
+### Boxing
+Code Reference - None
+Assets
+–Environment–
+Boxing
+"boxing_gloves_c4d (1)" (https://skfb.ly/puXMo) by ap-school is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+https://sketchfab.com/3d-models/ring-box-fight-pelea-9a3ba7df045d47f9b3d4106522612015
+
+Stadium
+	"Stadium Light" (https://skfb.ly/6TXZu) by thundermind is licensed under Creative 
+Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+
+Objects
+"Bomberman Spawner" (https://skfb.ly/6SVtx) by zer0nim is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Melon pack" (https://skfb.ly/6SzL8) by Lassi Kaukonen is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Bomb 3D Model/ Modelo de Bomba em 3D" (https://skfb.ly/6UuSF) by Juliano.Nigro is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Explosive Barrel" (https://skfb.ly/6TzVs) by digitalghast is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
+"Barrel" (https://skfb.ly/Q9SU) by Folgore is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
