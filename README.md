@@ -52,55 +52,34 @@ Platform 목록에서 Android 선택 후 Switch Platform 버튼 클릭
 Build 버튼을 눌러 .apk 파일 생성
 생성된 .apk 파일을 SideQuest 또는 adb install 명령어를 통해 기기에 설치
 
-## 전체 플로우 차트
+## 샘플 씬
+### Lobby Scene
+글러브 -> 복싱씬 전환
 
-```mermaid
-flowchart TD
-    A[게임 시작] --> B[싱글톤 초기화<br/>RhythmGameManager, RhythmManager, JudgmentSystem]
-    
-    B --> C[씬 로드 & SceneSetup<br/>MIDI 파싱, UI 연결]
-    
-    C --> D[카운트다운 후 게임 시작]
-    
-    D --> E[리듬 기반 오브젝트 발사<br/>beatTime - leadTime ≤ currentTime]
-    
-    E --> F{씬별 발사}
-    F -->|Baseball| G[포물선 투구]
-    F -->|Boxing| H[중력 낙하]
-    F -->|TableTennis| I[베지어 곡선]
-    
-    G --> J[RhythmData 부착]
-    H --> J
-    I --> J
-    
-    J --> K[플레이어 상호작용]
-    
-    K --> L[InteractionNotifier → JudgmentSystem<br/>타이밍 차이 계산]
-    
-    L --> M{판정}
-    M --> N[Perfect: 2점]
-    M --> O[Good: 1점]
-    M --> P[Bad/Miss: 0점]
-    
-    N --> Q[UI 업데이트 & 오브젝트 정리]
-    O --> Q
-    P --> Q
-    
-    Q --> R{더 처리할 비트?}
-    R -->|Yes| E
-    R -->|No| S[게임 종료 & 로비 복귀]
-    
-    %% 스타일링
-    style A fill:#e1f5fe
-    style B fill:#e8f5e8
-    style C fill:#fff3e0
-    style F fill:#f3e5f5
-    style L fill:#ffebee
-    style M fill:#fff8e1
-    style S fill:#e0f2f1
+![Image](https://github.com/user-attachments/assets/b44e3906-37a1-4791-ae12-f8a0c6e5b223)
 
-```
+야구공 -> BaseBall 전환
 
+![Image](https://github.com/user-attachments/assets/789470c1-7233-4c00-a2eb-3d9faf379f2e)
+
+탁구채 -> TableTennis 전환
+
+![Image](https://github.com/user-attachments/assets/1c2d6274-2305-4292-8b11-168a462b0097)
+### Boxing Scene
+![Image](https://github.com/user-attachments/assets/d0408777-b9d3-4668-9344-c311d4a841a7)
+
+
+![image](https://github.com/user-attachments/assets/9b770a69-406e-418e-b831-1e1b74dff62b)
+
+### Table Tennis Scene
+
+![image](https://github.com/user-attachments/assets/c8f89326-88e6-4f45-868e-aacb70a38657)
+
+### Baseball Scene
+
+![image](https://github.com/user-attachments/assets/deb5b35f-f28e-419e-a28d-66bb84d97356)
+
+![image](https://github.com/user-attachments/assets/b24022d4-4810-4410-b517-79e08ab41aa6)
 
 
 ## License
